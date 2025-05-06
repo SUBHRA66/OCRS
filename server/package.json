@@ -1,0 +1,28 @@
+{
+  "name": "online-course-registration",
+  "version": "1.0.0",
+  "description": "Online course registration portal for university students. Mini project, Spring semester 2025",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/App.js",
+    "dev": "nodemon src/App.js"
+  },
+  "author": "Subhranandan Deka",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.0",
+    "nodemon": "^3.1.9",
+    "pg": "^8.14.1",
+    "validator": "^13.15.0"
+  }
+}
