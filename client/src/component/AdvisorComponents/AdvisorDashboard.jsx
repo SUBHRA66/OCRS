@@ -1,10 +1,10 @@
 import axios from "axios";
-import { addAdvisor } from "../advisorSlice";
-import { BASE_URL } from "../utils/constants";
+import { addAdvisor } from "../../slices/advisorSlice";
+import { BASE_URL } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import AdvisoImg from "../assests/pppp.jpg";
-import { Navbar } from "./Navbar";
+import AdvisoImg from "../../assests/pppp.jpg";
+import { Navbar } from "../Navbar";
 export const AdvisorDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

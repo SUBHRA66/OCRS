@@ -220,7 +220,7 @@ select:focus {
   background: white;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  padding: 20px;
+  padding: 10px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid #e5e7eb;
 }
@@ -233,7 +233,7 @@ select:focus {
 
 /* Course name */
 .cname {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #1f2937;
   margin-bottom: 10px;
@@ -1065,7 +1065,6 @@ select:focus {
 
 /* Student Course Registration Section */
 .student-course-reg {
-  border: solid violet;
   margin-left: 1rem;
 }
 
@@ -1196,7 +1195,7 @@ select:focus {
 }
 
 /* Link Container */
-.navigation-tabs {
+.navigation-tabs  {
   padding: 0.75rem 1rem;
   margin: 0.25rem 0;
   border-radius: 8px;
@@ -1209,6 +1208,20 @@ select:focus {
 
 .navigation-tabs:hover {
   background-color: #334155;
+}
+
+.logout-btn:hover {
+  background-color: #334155;
+}
+.logout-btn {
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+  color: rgb(2, 0, 0);
+  text-align: left;
 }
 
 /* Active tab styling (optional with NavLink) */
@@ -1409,4 +1422,199 @@ select:focus {
 
 .modify-button:hover {
   background-color: #0056b3;
+}
+
+
+.main {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.header__student-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__student-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4f46e5; /* Indigo */
+}
+
+.header__student-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header__student-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #1f2937; /* Dark gray */
+}
+
+.header__student-rollno,
+.header__student-sem,
+.header__student-cgpa {
+  font-size: 0.95rem;
+  color: #6b7280; /* Gray */
+}
+
+/* Layout below header */
+.lower-container {
+  display: flex;
+  gap: 20px;
+}
+
+/* Navigation */
+.NavBar {
+  width: 260px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.nav-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.navigation-tabs {
+  background-color: #f3f4f6;
+  color: #374151;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.navigation-tabs:hover {
+  background-color: #4f46e5;
+  color: white;
+  transform: translateX(5px);
+}
+
+/* Main content container */
+.fac-dashboard-container {
+  flex-grow: 1;
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.student-course-reg {
+  padding: 20px;
+  background-color: #f9fafb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* .student-course-reg {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+} */
+
+.student-course-reg__headline {
+  margin-bottom: 25px;
+}
+
+.student-course-reg__headline h1 {
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* Course List */
+.student-course-reg__requested-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.course-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f3f4f6;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-row:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.course-row__code,
+.course-row__name,
+.course-row__credits {
+  font-size: 1rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Buttons */
+.approve-reject-container {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.approve-request-btn,
+.reject-request-btn {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.approve-request-btn {
+  background-color: #10b981; /* Green */
+  color: white;
+}
+
+.approve-request-btn:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.reject-request-btn {
+  background-color: #ef4444; /* Red */
+  color: white;
+}
+
+.reject-request-btn:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
 }

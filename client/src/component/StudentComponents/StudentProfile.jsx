@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import sakilImg from "../assests/Sakil.png"
+import sakilImg from "../../assests/Sakil.png"
 
 export const StudentProfile = () => {
   const student = useSelector((state) => state.student);

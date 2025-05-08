@@ -1,12 +1,12 @@
 import axios from "axios";
 import { use, useState } from "react";
-import { addStudent } from "../studentSlice";
+import { addStudent } from "../slices/studentSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import { addFaculty } from "../facultySlice";
-import { addAdvisor } from "../advisorSlice";
-import { addAdmin } from "../adminSlice";
+import { addFaculty } from "../slices/facultySlice";
+import { addAdvisor } from "../slices/advisorSlice";
+import { addAdmin } from "../slices/adminSlice";
 
 export const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,7 +67,6 @@ export const Login = () => {
         adminEmail: email,
         adminPwd: passwd,
       }, {withCredentials: true});
-      console.log(response);
       dispatch(addAdmin(response.data.data))    
       setIsLoggedIn(true);
       navigate("/admin/dashboard");

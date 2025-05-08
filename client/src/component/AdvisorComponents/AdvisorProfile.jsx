@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import facultyImg from "../assests/Sakil.png"; // Make sure you have an image for faculty
+import facultyImg from "../../assests/Sakil.png"; // Make sure you have an image for faculty
 
 export const AdvisorProfile = () => {
   const advisor = useSelector((state) => state.advisor);

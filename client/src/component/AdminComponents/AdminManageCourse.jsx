@@ -6,19 +6,10 @@ export const AdminManageCourse = () => {
   const [school, setSchool] = useState("");
   const [department, setDepartment] = useState("");
   const [courses, setCourses] = useState([]);
-  const [showCourses, setShowCourses] = useState("")
-
-  /*   const courses = [
-    { name: "Data Structures", code: "CS201", credit: 4 },
-    { name: "Operating Systems", code: "CS301", credit: 3 },
-    { name: "Database Systems", code: "CS303", credit: 3 },
-  ]; */
 
   useEffect(() => {
     if (school && department) {
       async function getAllCourses(school, department) {
-        console.log(school);
-        console.log(department);
         const response = await axios.post(
           BASE_URL + "admin/get-courses",
           { cschool: school, cdept: department },
@@ -26,14 +17,12 @@ export const AdminManageCourse = () => {
         );
         setCourses(response.data.data);
       }
-      getAllCourses(school, department)
+      getAllCourses(school, department);
     }
   }, [school, department]);
   const temp = school && department;
-  console.log(temp);
-  // setShowCourses(temp)
-  console.log(courses);
-  // const showCourses = school && department;
+
+  const onClickHander = () => {};
   return (
     <div className="admin-manage-course">
       <div className="admin-manage-course-header">MANAGE COURSES</div>
@@ -41,7 +30,9 @@ export const AdminManageCourse = () => {
         <select
           className="dropdown-11"
           value={school}
-          onChange={(e) => {setSchool(e.target.value)}}
+          onChange={(e) => {
+            setSchool(e.target.value);
+          }}
         >
           <option value="">Select School</option>
           <option value="SOE">School of Engineering</option>
@@ -65,8 +56,12 @@ export const AdminManageCourse = () => {
             <div key={index} className="course-item">
               <div className="course-info">
                 <div className="course-name">{course.cname}</div>
-                <div className="course-code">Course Code: <strong>{course.ccode}</strong></div>
-                <div className="course-credit">Credits: <strong>{course.ccredit}</strong></div>
+                <div className="course-code">
+                  Course Code: <strong>{course.ccode}</strong>
+                </div>
+                <div className="course-credit">
+                  Credits: <strong>{course.ccredit}</strong>
+                </div>
               </div>
               <button className="modify-button">Modify</button>
             </div>

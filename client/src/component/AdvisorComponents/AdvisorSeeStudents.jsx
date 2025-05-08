@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addStudent } from "../studentSlice";
+import { addStudent } from "../../slices/studentSlice";
 export const AdvisorSeeStudents = () => {
   // Dummy student data
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const AdvisorSeeStudents = () => {
 
   const clickHandler = (student) => {
     dispatch(addStudent(student));
-    navigate("/advisor/course-reg/students/manage-req")
+    navigate("/advisor/course-reg/students/dash")
   };
   return (
     <div className="advisor-page">

@@ -4,20 +4,25 @@ import ghssImg from "../assests/GHSS.png";
 
 //HEADER t ERROR ase
 export const Header = () => {
-  const student = useSelector((state) => state.student);
-  const advisor = useSelector((state) => state.advisor);
-  const faculty = useSelector((state) => state.faculty);
   console.log("HEADER LOADED");
+  const student = useSelector((state) => state.student);
+  const faculty = useSelector((state) => state.faculty);
+  const advisor = useSelector((state) => state.advisor);
+  const admin = useSelector((state) => state.admin);
+  const userName = student?.sname || faculty?.insName || advisor?.advName || admin?.adminName
+
   return (
     <header className="header-container">
       <div className="logo">
         <img src={ghssImg} alt="" />
       </div>
       <div className="header-content">
-        {student.sname || advisor.advName || faculty.insName ? (
-          <span className="welcome-text">Welcome {student.sname || advisor.advName || faculty.insName}</span>
+        {userName ? (
+          <span className="welcome-text">
+            Welcome {userName}
+          </span>
         ) : (
-          <span className="welcome-text">Welcome to OCRES</span>
+          <span className="welcome-text">Welcome to Online Course Registration System</span>
         )}
       </div>
     </header>

@@ -1,10 +1,10 @@
 import axios from "axios";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 import { useEffect, useState } from "react";
-import { addBacklogCourses, removeBacklogCourses } from "../courseSlice";
+import { addBacklogCourses, removeBacklogCourses } from "../../slices/courseSlice";
 import { useDispatch } from "react-redux";
 
-export const BacklogCourses = () => {
+export const StudentBacklogCourses = () => {
   const dispatch = useDispatch();
   const [backlogCourses, setBacklogCourses] = useState([]);
   const [selectedBacklogCourses, setSelectedBacklogCourses] = useState([]);

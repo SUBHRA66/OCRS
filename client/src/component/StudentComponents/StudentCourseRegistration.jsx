@@ -1,9 +1,9 @@
-import axios, { all } from "axios";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
-import { addSelectedCourses, removeSelectedCourse } from "../courseSlice";
+import { addSelectedCourses, removeCourses, removeSelectedCourse } from "../../slices/courseSlice";
+import { BASE_URL } from "../../utils/constants";
 
 const getCourses = async () => {
   const response = await axios.get(BASE_URL + "student/course-reg/courses", {
@@ -13,7 +13,7 @@ const getCourses = async () => {
 };
 
 //course registration page component
-export const CourseRegistration = () => {
+export const StudentCourseRegistration = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedCourses, setSelectedCourses] = useState([]); //SELECTED COURSE IN THE PORTAL, for Redux
@@ -23,7 +23,9 @@ export const CourseRegistration = () => {
   const [saveSelection, setSaveSelection] = useState(false); // SAVE SELECTION FLAG
   const [sendRequest, setSendRequest] = useState(false); // REG REQUEST SENT FLAG
   const [flag, setFlag] = useState(false);
-
+  const [requested, setRequested] = useState(false);
+  const [rejected, setRejected] = useState(false);
+  const [approved, setApproved] = useState(false);
   const bc = useSelector((state) => state.course.backlogCourses);
   const backlogCourses = bc.map((bc) => bc.ccode);
   console.log(backlogCourses);
@@ -36,8 +38,23 @@ export const CourseRegistration = () => {
         }
       );
       const requestedCourses = response.data.rows;
-      if (requestedCourses.length) {
+      if (requestedCourses.length > 0) {
+        const { status } = requestedCourses[0];
         setFlag(true);
+        if (status == "requested") {
+          setRequested(true);
+          setTempCourses(requestedCourses);
+        } else if (status == "rejected") {
+          setRejected(true);
+          setTempCourses(requestedCourses);
+        } else if (status == "approved") {
+          const res = await axios.get(
+            BASE_URL + "student/profile/registered-courses/",
+            { withCredentials: true }
+          );
+          setApproved(true);
+          setTempCourses(res.data.courses);
+        }
         setTempCourses(requestedCourses);
       } else {
         setFlag(false);
@@ -58,10 +75,6 @@ export const CourseRegistration = () => {
     setSelectedCourses((prevSelectedCourses) => {
       if (!prevSelectedCourses.includes(courseCode)) {
         setCreditCount(creditCount + courseCredit);
-        /* setTempCourses((prevTempCourses) => [
-          ...prevTempCourses,
-          COURSES.find((c) => c.ccode === courseCode),
-        ]); */
         dispatch(
           addSelectedCourses(COURSES.find((c) => c.ccode === courseCode))
         );
@@ -85,9 +98,8 @@ export const CourseRegistration = () => {
 
   const sendRegRequestHandler = async () => {
     if (sendRequest) {
-      // setSendRequest(false);
     } else {
-      if (backlogCourses.length) {
+      if (backlogCourses.length > 0) {
         const allCourses = [...selectedCourses, ...backlogCourses];
 
         await axios.post(
@@ -110,8 +122,6 @@ export const CourseRegistration = () => {
           }
         );
       }
-
-      // setSendRequest(true);
       setFlag(true);
     }
   };
@@ -125,9 +135,9 @@ export const CourseRegistration = () => {
       }
     );
     setFlag(false);
-    // setSendRequest(false);
     setSaveSelection(false);
     setSelectedCourses([]);
+    dispatch(removeCourses());
   };
   if (!flag) {
     return (
@@ -236,20 +246,29 @@ export const CourseRegistration = () => {
         </button>
       </div>
     );
-  } else {
+  } else if (flag) {
     return (
       <div className="already-requested-container">
         <div className="already-requested">
           REQUEST SENT
+          {approved ? (
+            <p>YOUR COURSE REGISTRATION REQUEST HAS BEEN APPROVED</p>
+          ) : !rejected ? (
+            <p>REGISTRATION REQUEST YET TO BE APPROVED BY THE ADVISOR</p>
+          ) : (
+            <p>REGISTRATION REQUEST REJECTED BY THE ADVISOR</p>
+          )}
           <button className="request-again" onClick={HandleRequestAgain}>
             SEND REQUEST AGAIN
           </button>
         </div>
-        {/* Add a horizontal line */}
         <hr className="divider" />
-        {/* Courses display */}
         <div className="courses-list">
-          <h1>YOUR REQUESTED COURSES</h1>
+          {approved ? (
+            <h1>YOUR APPROVED COURSES</h1>
+          ) : (
+            <h1>YOUR REQUESTED COURSES</h1>
+          )}
           {tempCourses.map((course, index) => (
             <div key={index} className="course-card">
               <h4 className="course-name">{course.cname}</h4>

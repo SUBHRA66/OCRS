@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import studentReducer from "../studentSlice";
-import courseReducer from "../courseSlice";
-import facultyReducer from "../facultySlice";
-import advisorReducer from "../advisorSlice";
-import adminReducer from "../adminSlice";
+import studentReducer from "../slices/studentSlice";
+import courseReducer from "../slices/courseSlice";
+import facultyReducer from "../slices/facultySlice";
+import advisorReducer from "../slices/advisorSlice";
+import adminReducer from "../slices/adminSlice";
 export const store = configureStore({
   reducer: {
     student: studentReducer,
