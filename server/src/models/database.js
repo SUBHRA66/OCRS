@@ -60,10 +60,9 @@ export const findAllCourses = async () => {
 };
 
 export const findCourseByName = async (cname) => {
-  const [ccode] = await pool.query(
-    `SELECT * FROM Courses WHERE cname = ?`,
-    [cname]
-  );
+  const [ccode] = await pool.query(`SELECT * FROM Courses WHERE cname = ?`, [
+    cname,
+  ]);
 
   return ccode[0];
 };
@@ -77,48 +76,60 @@ export const sendRegReq = async (rollno, ccode) => {
   );
 };
 
-export const findReqByRollno = async (rollno) =>{
-  const QUERY = `SELECT c.csem, c.cname, c.ccode, c.ccredit, c.ctype, rq.approvalFlag
+export const findReqByRollno = async (rollno) => {
+  const QUERY = `SELECT c.csem, c.cname, c.ccode, c.ccredit, c.ctype, rq.status, rq.approvalFlag
     FROM courses c
     INNER JOIN regreq rq ON c.ccode = rq.ccode
-    WHERE rq.rollno = ?`
+    WHERE rq.rollno = ?`;
 
   const [rows] = await pool.query(QUERY, [rollno]);
   return rows;
 };
 
-export const approveRequest = async (rollno) =>{
-  await pool.query(`UPDATE regreq
-    SET approvalFlag = true
-    WHERE rollno = ?`, [rollno])
+export const approveRequest = async (rollno) => {
+  await pool.query(
+    `UPDATE regreq
+     SET approvalFlag = true, status = ?
+     WHERE rollno = ?`,
+    ["approved", rollno]
+  );
 
-  await pool.query(`INSERT INTO StudentCourses
-    SELECT * FROM regreq
-    WHERE rollno = ?`, [rollno])
-  
-  await pool.query(`DELETE FROM regreq
-    WHERE rollno = ?`,
-  [rollno])
+  await pool.query(
+    `INSERT INTO StudentCourses (rollno, ccode, approvalFlag, status)
+       SELECT rollno, ccode, approvalFlag, ? FROM regreq
+       WHERE rollno = ?`,
+    ["enrolled", rollno]
+  );
+  console.log("THIS LINE IS GETTING PRINTED");
 };
 
-export const findCourseByDept = async (cdept)=> {
-  const [rows] = await pool.query(`SELECT * FROM Courses 
-    WHERE cdept = ?`, [cdept])
+export const findCourseByDept = async (cdept) => {
+  const [rows] = await pool.query(
+    `SELECT * FROM Courses 
+    WHERE cdept = ?`,
+    [cdept]
+  );
   return rows;
 };
 
-export const findCourseBySem = async (csem)=> {
-  const [rows] = await pool.query(`SELECT * FROM Courses 
-    WHERE csem = ?`, [csem])
+export const findCourseBySem = async (csem) => {
+  const [rows] = await pool.query(
+    `SELECT * FROM Courses 
+    WHERE csem = ?`,
+    [csem]
+  );
   return rows;
 };
 
-export const findCourse = async (csem, cdept)=>{
-  const [rows] = await pool.query("SELECT * FROM courses WHERE csem = ? AND cdept = ?",
-  [csem], [cdept])
+export const findCourse = async (csem, cdept) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM courses WHERE csem = ? AND cdept = ?",
+    [csem],
+    [cdept]
+  );
 };
 
-export const getBacklogCourses = async (cdept, csem) =>{
+export const getBacklogCourses = async (cdept, csem) => {
   const [pastCourses] = await pool.query(
     `SELECT * FROM Courses
     WHERE cdept = ? AND csem != ?`,
@@ -126,4 +137,4 @@ export const getBacklogCourses = async (cdept, csem) =>{
   );
 
   return pastCourses;
-}
+};

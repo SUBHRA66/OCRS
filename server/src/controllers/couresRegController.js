@@ -151,10 +151,10 @@ export const courseRegReq = async (req, res) => {
     const { rollno } = req.user;
 
     const [rows] = await pool.query(
-      `SELECT c.ccode, c.cname, c.ccredit, c.ctype
-      FROM courses c
-      INNER JOIN regreq rq ON rq.ccode = c.ccode
-      INNER JOIN Student s ON rq.rollno = s.rollno
+      `SELECT c.ccode, c.cname, c.ccredit, c.ctype, rq.status
+      FROM regreq rq
+      INNER JOIN courses c ON rq.ccode = c.ccode
+      INNER JOIN student s ON rq.rollno = s.rollno
       WHERE s.rollno = ?`,
       [rollno]
     );
@@ -178,9 +178,10 @@ export const courseSelection = async (req, res) => {
     const flag = response[0].present;
     if (!flag) {
       ccodes.forEach(async (ccode) => {
-        await pool.query(`INSERT INTO regreq VALUES (?,?, false)`, [
+        await pool.query(`INSERT INTO regreq VALUES (?,?, false, ?)`, [
           rollno,
           ccode,
+          "requested",
         ]);
       });
       res.json({ message: "Course registration request sent to advisor" });
@@ -196,6 +197,7 @@ export const deleteRegReq = async (req, res) => {
   try {
     const { rollno, sname } = req.user;
     await pool.query(`DELETE FROM regreq WHERE rollno = ?`, [rollno]);
+    await pool.query(`DELETE FROM StudentCourses WHERE rollno = ?`, [rollno]);
     res.send("RegReq data erased for " + sname);
   } catch (err) {
     res.send("ERROR: " + err.message);
@@ -289,20 +291,95 @@ export const seeStudents = async (req, res) => {
   }
 };
 
-export const  getAllCourses = async (req, res) =>{
-  try{
+export const getAllCourses = async (req, res) => {
+  try {
     // const {adminDept} = req.user;
-    const {cschool, cdept} = req.body
-    const response = await pool.query(`
+    const { cschool, cdept } = req.body;
+    const response = await pool.query(
+      `
       SELECT * FROM Courses 
-      WHERE cschool = ? AND cdept = ?`, [cschool, cdept])
+      WHERE cschool = ? AND cdept = ?`,
+      [cschool, cdept]
+    );
     const c = response[0];
-    console.log(c)
+    console.log(c);
     res.status(200).json({
-      message: "courses data fetched", 
-      data: c
-    })
-  }catch(err){
+      message: "courses data fetched",
+      data: c,
+    });
+  } catch (err) {
     console.log("ERROR: " + err.message);
   }
-}
+};
+
+export const getAllStudents = async (req, res) => {
+  try {
+    const { sschool, sdept, ssem } = req.body;
+    const response = await pool.query(
+      `SELECT * FROM Student
+      WHERE sschool =? AND sdept = ? AND ssem = ?`,
+      [sschool, sdept, ssem]
+    );
+    res.json({
+      message: "student data fetched",
+      data: response[0],
+    });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+};
+
+export const getAllFaculties = async (req, res) => {
+  try {
+    const { insSchool, insDept } = req.body;
+    const response = await pool.query(
+      `SELECT * FROM instructor
+      WHERE insDept = ? AND insSchool = ?`,
+      [insDept, insSchool]
+    );
+    res.json({
+      message: "Faculty data fetched",
+      data: response[0],
+    });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+};
+
+export const registeredCourses = async (req, res) => {
+  try {
+    const rollno = req.params.rollno;
+    const response = await pool.query(
+      `SELECT C.ccode, C.cname, C.csem, C.ccredit, C.ctype FROM Courses C
+      INNER JOIN StudentCourses SC
+      ON SC.ccode = C.ccode 
+      WHERE SC.rollno = ?`,
+      [rollno]
+    );
+    res.json({
+      message: "courses data fetched",
+      data: response[0],
+    });
+  } catch (err) {
+    res.send("ERROR: " + err.message);
+  }
+};
+
+export const RejectRequest = async (req, res) => {
+  try {
+    const rollno = req.params.rollno;
+    const response = await pool.query(
+      `
+      UPDATE regreq
+      SET status = "rejected"
+      WHERE rollno = ?`,
+      [rollno]
+    );
+
+    res.json({
+      message: "Request Rejected",
+    });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+};

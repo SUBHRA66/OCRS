@@ -2,7 +2,7 @@ import express from "express";
 import { adminLogin, adminLogout } from "../controllers/authController.js";
 import { adminProfile } from "../controllers/profileController.js";
 import { auth } from "../middlewares/auth.js";
-import { addCourses, getAllCourses } from "../controllers/couresRegController.js";
+import { addCourses, getAllCourses, getAllStudents, getAllFaculties } from "../controllers/couresRegController.js";
 export const adminRouter = express.Router();
 
 adminRouter.post("/login", adminLogin);
@@ -19,4 +19,12 @@ adminRouter.post("/add-course",
 adminRouter.post("/get-courses", 
   auth("admin", "adminEmail", process.env.MYSQL_ADMIN_TOKEN_PRIVATE_KEY),
   getAllCourses
+)
+adminRouter.post("/get-students", 
+  auth("admin", "adminEmail", process.env.MYSQL_ADMIN_TOKEN_PRIVATE_KEY),
+  getAllStudents
+)
+adminRouter.post("/get-faculties", 
+  auth("admin", "adminEmail", process.env.MYSQL_ADMIN_TOKEN_PRIVATE_KEY),
+  getAllFaculties
 )

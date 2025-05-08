@@ -12,7 +12,6 @@ import {
 } from "../controllers/couresRegController.js";
 
 import { auth } from "../middlewares/auth.js";
-import { pool } from "../config/config.js";
 export const studentRouter = express.Router();
 
 studentRouter.post("/login", studentLogin);
@@ -60,7 +59,7 @@ studentRouter.get(
   "/course-reg/get-requests",
   auth("student", "rollno", process.env.MYSQL_STUDENT_TOKEN_PRIVATE_KEY),
   getRequests
-)
+);
 studentRouter.post(
   "/course-reg/course-selection",
   auth("student", "rollno", process.env.MYSQL_STUDENT_TOKEN_PRIVATE_KEY),
