@@ -32,7 +32,7 @@ const Layout = () => {
   const faculty = useSelector((state) => state.faculty);
   const advisor = useSelector((state) => state.advisor);
   const admin = useSelector((state) => state.admin);
-
+  console.log(student);
   return (
     <BrowserRouter>
       <Header />
@@ -42,52 +42,68 @@ const Layout = () => {
 
         {/* STUDENT ROUTES */}
 
-        <Route path="/student/dashboard" element={<StudentDashboard />}>
-          <Route index element={<Navigate to="overview" replace />} />
-          <Route path="overview" element={<FacultyOverview />} />
-          <Route path="profile" element={<StudentProfile />} />
-          <Route path="curr-sem" element={<StudentCurrentSemester />} />
-          <Route path="course-reg" element={<StudentCourseRegistration />} />
-        </Route>
-        <Route
-          path="/student/course-registration/backlog-courses"
-          element={<StudentBacklogCourses />}
-        />
+        {student && (
+          <Route>
+            <Route path="/student/dashboard" element={<StudentDashboard />}>
+              <Route index element={<Navigate to="overview" replace />} />
+              <Route path="overview" element={<FacultyOverview />} />
+              <Route path="profile" element={<StudentProfile />} />
+              <Route path="curr-sem" element={<StudentCurrentSemester />} />
+              <Route
+                path="course-reg"
+                element={<StudentCourseRegistration />}
+              />
+            </Route>
+            <Route
+              path="/student/course-registration/backlog-courses"
+              element={<StudentBacklogCourses />}
+            />
+          </Route>
+        )}
+
         {/* FACUTLY ROUTES */}
-        <Route path="/faculty/dashboard" element={<FacultyDashboard />}>
-          <Route index element={<Navigate to="overview" replace />} />
-          <Route path="overview" element={<FacultyOverview />} />
-          <Route path="profile" element={<FacultyProfile />} />
-          <Route path="my-courses" element={<FacultyCourses />} />
-        </Route>
-
+        {faculty && (
+          <Route>
+            <Route path="/faculty/dashboard" element={<FacultyDashboard />}>
+              <Route index element={<Navigate to="overview" replace />} />
+              <Route path="overview" element={<FacultyOverview />} />
+              <Route path="profile" element={<FacultyProfile />} />
+              <Route path="my-courses" element={<FacultyCourses />} />
+            </Route>
+          </Route>
+        )}
         {/* ADMIN ROUTES */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />}>
-          <Route index element={<Navigate to="overview" replace />} />
-          <Route path="overview" element={<FacultyOverview />} />
-          <Route path="profile" element={<AdminProfile />} />
-          <Route path="manage-course" element={<AdminManageCourse />} />
-          <Route path="manage-student" element={<AdminManageStudent />} />
-          <Route path="manage-faculty" element={<AdminManageFaculty />} />
-        </Route>
 
-        <Route path="/advisor/dashboard" element={<AdvisorDashboard />} />
-        <Route path="/advisor/profile" element={<AdvisorProfile />} />
-        <Route
-          path="/advisor/course-reg/students"
-          element={<AdvisorSeeStudents />}
-        />
+        {admin && (
+          <Route path="/admin/dashboard" element={<AdminDashboard />}>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<FacultyOverview />} />
+            <Route path="profile" element={<AdminProfile />} />
+            <Route path="manage-course" element={<AdminManageCourse />} />
+            <Route path="manage-student" element={<AdminManageStudent />} />
+            <Route path="manage-faculty" element={<AdminManageFaculty />} />
+          </Route>
+        )}
+        {advisor && (
+          <Route>
+            <Route path="/advisor/dashboard" element={<AdvisorDashboard />} />
+            <Route path="/advisor/profile" element={<AdvisorProfile />} />
+            <Route
+              path="/advisor/course-reg/students"
+              element={<AdvisorSeeStudents />}
+            />
 
-        <Route
-          path="/advisor/course-reg/students/dash"
-          element={<AdvisorCourseReg />}
-        >
-          <Route index element={<Navigate to="manage-req" replace />} />
-          <Route path="manage-req" element={<AdvisorManageRequests />} />
-          <Route path="curr-sem" element={<AdvisorCurrSem />} />
-          <Route path="completed-courses" element={<AdvisorCurrSem />} />
-        </Route>
-
+            <Route
+              path="/advisor/course-reg/students/dash"
+              element={<AdvisorCourseReg />}
+            >
+              <Route index element={<Navigate to="manage-req" replace />} />
+              <Route path="manage-req" element={<AdvisorManageRequests />} />
+              <Route path="curr-sem" element={<AdvisorCurrSem />} />
+              <Route path="completed-courses" element={<AdvisorCurrSem />} />
+            </Route>
+          </Route>
+        )}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
