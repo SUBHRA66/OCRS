@@ -34,6 +34,13 @@ export const studentProfile = async (req, res) => {
   }
 };
 
+export const StudentEditProfile = async (req, res) =>{
+  try{
+    
+  }catch(err){
+    res.status(400).send("ERROR: " + err.message);
+  }
+}
 export const advisorProfile = async (req, res) => {
   try {
     const user = req.user;

@@ -1,5 +1,9 @@
 import express from "express";
-import { studentLogin, studentLogout } from "../controllers/authController.js";
+import {
+  studentLogin,
+  studentLogout,
+  forgetPassword,
+} from "../controllers/authController.js";
 import { studentProfile } from "../controllers/profileController.js";
 import {
   courses,
@@ -8,7 +12,7 @@ import {
   pastCourses,
   courseRegReq,
   deleteRegReq,
-  getRequests
+  getRequests,
 } from "../controllers/couresRegController.js";
 
 import { auth } from "../middlewares/auth.js";
@@ -16,6 +20,7 @@ export const studentRouter = express.Router();
 
 studentRouter.post("/login", studentLogin);
 studentRouter.post("/logout", studentLogout);
+
 studentRouter.get(
   "/profile",
   auth("student", "rollno", process.env.MYSQL_STUDENT_TOKEN_PRIVATE_KEY),
