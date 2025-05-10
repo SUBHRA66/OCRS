@@ -24,12 +24,13 @@ export const StudentCurrentSemester = () => {
     );
   } else {
     return (
-      <div className="courses-container">
+      <div className="std-courses-container">
+        <div className="std-total-cr-selected">TOTAL CREDIT SELECTED THIS SEMESTER: {56}</div>
         {courses.map((item, index) => (
-          <div key={index} className="course-item">
-            <div className="cname">{item.cname}</div>
-            <div className="ccode">{item.ccode}</div>
-            <div className="ccredit">Course Credit {item.ccredit}</div>
+          <div key={index} className="std-course-item">
+            <div className="std-cname">{item.cname}</div>
+            <div className="std-ccode">{item.ccode}</div>
+            <div className="std-ccredit">Course Credit {item.ccredit}</div>
           </div>
         ))}
       </div>

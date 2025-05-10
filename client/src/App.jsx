@@ -26,6 +26,9 @@ import { AdminManageFaculty } from "./component/AdminComponents/AdminManageFacul
 import { AdvisorManageRequests } from "./component/AdvisorComponents/AdvisorManageRequests";
 import { AdvisorCurrSem } from "./component/AdvisorComponents/AdvisorCurrSem";
 import { StudentCourseRegistration } from "./component/StudentComponents/StudentCourseRegistration";
+import { ForgetPassword } from "./component/ForgetPassword";
+import { StudentOverview } from "./component/StudentComponents/StudentOverview";
+
 
 const Layout = () => {
   const student = useSelector((state) => state.student);
@@ -39,14 +42,14 @@ const Layout = () => {
 
       <Routes>
         <Route path="/" element={<Login />} />
-
+        <Route path="/forget-password" element = {<ForgetPassword/>} />
         {/* STUDENT ROUTES */}
 
         {student && (
           <Route>
             <Route path="/student/dashboard" element={<StudentDashboard />}>
               <Route index element={<Navigate to="overview" replace />} />
-              <Route path="overview" element={<FacultyOverview />} />
+              <Route path="overview" element={<StudentOverview />} />
               <Route path="profile" element={<StudentProfile />} />
               <Route path="curr-sem" element={<StudentCurrentSemester />} />
               <Route

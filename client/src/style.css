@@ -87,6 +87,23 @@ select:focus {
   background-color: #2980b9;
 }
 
+.forget-pwd {
+  display: inline-block;
+  color: #007bff; /* Bootstrap blue */
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+  text-align: right;
+  width: 100%;
+  text-align: center;
+}
+
+.forget-pwd:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
 /* HEADER STYLES */
 .header-container {
   width: 100%;
@@ -132,124 +149,152 @@ select:focus {
 }
 
 /* STUDENT PROFILE */
-.profile-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 60px 20px;
-  min-height: 100vh;
-  background: linear-gradient(to right, #eef2f3, #ffffff);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .studentprofile {
   display: flex;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 90%;
-  max-width: 800px;
+  justify-content: space-between;
+  gap: 2rem;
+  background-color: #f8fafc; /* light neutral */
+  border: 1px solid #e2e8f0; /* soft border */
+  border-radius: 12px;
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-.profile-left {
-  background-color: #2c3e50;
-  color: #fff;
-  padding: 40px 30px;
-  width: 35%;
+/* Left section */
+.pl {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  text-align: center;
+  width: 220px;
 }
-.profile-left img {
-  width: 120px;
-  height: 120px;
+
+.pl img {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 20px;
-  border: 4px solid #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid #1e293b;
+  margin-bottom: 1rem;
 }
 
-.profile-left h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
+.pl h2 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin: 0.25rem 0;
 }
 
-.profile-left span {
-  font-size: 16px;
-  opacity: 0.9;
+.pl span {
+  font-size: 0.95rem;
+  color: #64748b;
 }
 
-.profile-right {
-  padding: 40px 50px;
-  width: 65%;
-  background-color: #f9f9f9;
+/* Right section */
+.pr {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
 }
 
-.profile-item {
-  margin-bottom: 20px;
+/* Each item block */
+.p-item,
+.p-items {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
 }
 
-.profile-label {
+.p-label {
+  color: #475569;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.p-value {
+  color: #1e293b;
   font-weight: 600;
-  color: #555;
-  margin-bottom: 5px;
+  font-size: 1rem;
+}
+.pl .edit-profile {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s;
 }
 
-.profile-value {
-  font-size: 18px;
-  color: #222;
+.pl .edit-profile:hover {
+  background-color: #0056b3;
 }
 
 /* coursespage --------------------------*/
-/* Global container */
-.courses-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  background-color: #f9fafb;
+.std-courses-container {
+  padding: 2rem;
+  background-color: #f9fafe;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Individual course card */
-.course-item {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  padding: 10px;
+.std-total-cr-selected {
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: #e0f3ff;
+  color: #007acc;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  box-shadow: inset 0 0 5px rgba(0, 122, 204, 0.1);
+}
+
+.std-course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border-left: 6px solid #007acc;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid #e5e7eb;
 }
 
-/* Hover effect */
-.course-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+.std-course-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 122, 204, 0.15);
 }
 
-/* Course name */
-.cname {
-  font-size: 1rem;
+.std-cname {
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 10px;
+  color: #333;
+  flex: 2;
 }
 
-/* Course code */
-.ccode {
-  font-size: 1rem;
-  color: #4b5563;
-  margin-bottom: 6px;
-}
-
-/* Course credit */
-.ccredit {
+.std-ccode {
   font-size: 0.95rem;
-  color: #6b7280;
+  color: #666;
+  flex: 1;
+  text-align: center;
+}
+
+.std-ccredit {
+  font-size: 0.95rem;
+  color: #555;
+  background-color: #f0f7ff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+  flex: 1;
+  text-align: right;
 }
 
 .no-courses {
@@ -321,6 +366,141 @@ select:focus {
 }
 
 /* FACULTY PROFILE PAGE--------------- */
+.fp {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #f4f6f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  align-items: flex-start;
+  font-family: Arial, sans-serif;
+  flex-wrap: wrap;
+}
+
+.fac-profile-left {
+  flex: 1;
+  max-width: 250px;
+  text-align: center;
+}
+
+.fac-profile-left img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid #007bff;
+}
+
+.fac-profile-left h2 {
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.fac-profile-left span {
+  display: block;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.fac-profile-right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.fac-profile-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.fac-profile-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.fac-profile-value {
+  font-weight: 500;
+  color: #007bff;
+}
+
+/* ADMIN PROFILE */
+.admin-prof {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  background-color: #f9fafe;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1rem 0;
+}
+
+.adm-profile-left {
+  flex: 1;
+  text-align: center;
+}
+
+.adm-profile-left img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 3px solid #007acc;
+}
+
+.adm-profile-left h2 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  color: #222;
+}
+
+.adm-profile-left span {
+  font-size: 1rem;
+  color: #555;
+}
+
+.adm-profile-right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.adm-profile-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #ffffff;
+  border-left: 5px solid #007acc;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 122, 204, 0.05);
+}
+
+.adm-profile-label {
+  font-weight: 600;
+  color: #007acc;
+}
+
+.adm-profile-value {
+  font-weight: 500;
+  color: #333;
+}
+
+/* ADMIN PROFILE */
+
+/* FACULTY PROFILE PAGE--------------- */
 .profile-container {
   max-width: 900px;
   margin: 40px auto;
@@ -331,69 +511,6 @@ select:focus {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
-
-.facultyprofile {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  align-items: center;
-}
-
-.profile-left {
-  flex: 1 1 250px;
-  text-align: center;
-  padding: 20px;
-}
-
-.profile-left img {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #e0e0e0;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.profile-left h2 {
-  margin: 0;
-  font-size: 1.8rem;
-  color: #d8dce0;
-}
-
-.profile-left span {
-  display: block;
-  font-size: 1rem;
-  color: #777;
-  margin-top: 6px;
-}
-
-.profile-right {
-  flex: 2 1 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 10px 0;
-}
-
-.profile-item {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #e2e2e2;
-  padding: 12px 0;
-}
-
-.profile-label {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #555;
-}
-
-.profile-value {
-  font-size: 1rem;
-  color: #222;
-}
-
 /* STUDENT CARD */
 .student-card {
   width: 320px;
@@ -971,96 +1088,53 @@ select:focus {
   padding: 2rem;
 }
 
-.header {
-  width: 100%;
-  padding: 1rem 2rem;
-  background-color: #f5f5f5; /* light gray background */
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.header__student-info {
-  display: flex;
-  align-items: center;
-}
-
-.header__student-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 1rem;
-  border: 2px solid #ccc;
-}
-
-.header__student-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.header__student-name {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.header__student-rollno,
-.header__student-sem,
-.header__student-cgpa {
-  font-size: 0.95rem;
-  color: #666;
-  margin-top: 2px;
-}
-
 .main {
   min-height: 100vh;
   background-color: #fafafa;
   padding: 2rem;
 }
 
-/* Header styles */
-.header {
-  width: 100%;
-  padding: 1rem 2rem;
-  background-color: #f5f5f5;
+.student-header {
+  background-color: #f1f5f9; /* Light background */
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #cbd5e1;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  margin-bottom: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.header__student-info {
+.h-student-info {
   display: flex;
   align-items: center;
+  gap: 1.5rem;
 }
 
-.header__student-img {
-  width: 60px;
-  height: 60px;
+.h-student-img {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 1rem;
-  border: 2px solid #ccc;
+  border: 2px solid #334155; /* matches dark sidebar tones */
 }
 
-.header__student-details {
+.h-student-details {
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
 }
 
-.header__student-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
+.h-student-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
 }
 
-.header__student-rollno,
-.header__student-cgpa {
-  font-size: 1rem;
-  color: #666;
-  margin-top: 2px;
+.h-student-rollno,
+.h-student-sem,
+.h-student-cgpa {
+  font-size: 0.95rem;
+  color: #475569;
 }
 
 /* Student Course Registration Section */
@@ -1167,7 +1241,7 @@ select:focus {
 }
 
 /* NAVIGATION PANEL FOR FACULTY */
-.main-container {
+.nav-container {
   display: flex;
   height: 100vh;
   background-color: #f8f9fa;
@@ -1176,7 +1250,7 @@ select:focus {
 
 /* Sidebar */
 .NavBar {
-  width: 240px;
+  width: 250px;
   background-color: #1e293b; /* Dark blue-gray */
   color: white;
   display: flex;
@@ -1195,7 +1269,8 @@ select:focus {
 }
 
 /* Link Container */
-.navigation-tabs  {
+.navigation-tabs {
+  text-decoration: none; /* Remove underline */
   padding: 0.75rem 1rem;
   margin: 0.25rem 0;
   border-radius: 8px;
@@ -1204,33 +1279,42 @@ select:focus {
   font-size: 1rem;
   color: white;
   text-align: left;
+  display: block; /* Ensures padding applies correctly */
+  border-left: 4px solid transparent;
+  transition: border-left 0.3s ease, background-color 0.3s ease;
 }
 
 .navigation-tabs:hover {
   background-color: #334155;
+  border-left: 4px solid #3b82f6; /* blue-500 */
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: white;
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+  text-align: left;
+  width: 100%;
 }
 
 .logout-btn:hover {
   background-color: #334155;
 }
-.logout-btn {
-  padding: 0.75rem 1rem;
-  margin: 0.25rem 0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-size: 1rem;
-  color: rgb(2, 0, 0);
-  text-align: left;
-}
 
 /* Active tab styling (optional with NavLink) */
 .active-tab {
   background-color: #475569;
+  font-weight: 600;
 }
 
 /* Main Content Area */
-.fac-dashboard-container {
+.common-dashboard-container {
   flex-grow: 1;
   padding: 2rem;
   overflow-y: auto;
@@ -1246,65 +1330,6 @@ select:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.facultyprofile {
-  display: flex;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  max-width: 800px;
-  width: 100%;
-  gap: 2rem;
-}
-
-.profile-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 40%;
-}
-
-.profile-left img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 1rem;
-}
-
-.profile-left h2 {
-  margin: 0.5rem 0;
-  font-size: 1.5rem;
-  color: #ffffff;
-}
-
-.profile-left span {
-  color: #ffffff;
-  font-size: 0.9rem;
-}
-
-.profile-right {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.profile-item {
-  margin-bottom: 1rem;
-}
-
-.profile-label {
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 0.3rem;
-}
-
-.profile-value {
-  font-size: 1.1rem;
-  color: #222;
 }
 
 .my-courses-container {
@@ -1424,57 +1449,11 @@ select:focus {
   background-color: #0056b3;
 }
 
-
 .main {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
   background-color: #f9fafb;
   min-height: 100vh;
-}
-
-/* Header */
-.header {
-  background-color: #ffffff;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  margin-bottom: 30px;
-}
-
-.header__student-info {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.header__student-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #4f46e5; /* Indigo */
-}
-
-.header__student-details {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.header__student-name {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #1f2937; /* Dark gray */
-}
-
-.header__student-rollno,
-.header__student-sem,
-.header__student-cgpa {
-  font-size: 0.95rem;
-  color: #6b7280; /* Gray */
 }
 
 /* Layout below header */
@@ -1484,52 +1463,13 @@ select:focus {
 }
 
 /* Navigation */
-.NavBar {
-  width: 260px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.nav-heading {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.navigation-tabs {
-  background-color: #f3f4f6;
-  color: #374151;
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.navigation-tabs:hover {
-  background-color: #4f46e5;
-  color: white;
-  transform: translateX(5px);
-}
 
 /* Main content container */
-.fac-dashboard-container {
-  flex-grow: 1;
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
 
 .student-course-reg {
   padding: 20px;
   background-color: #f9fafb;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* .student-course-reg {
@@ -1689,4 +1629,113 @@ select:focus {
 .profile-value {
   font-size: 1.1rem;
   text-align: right;
+}
+
+/* FORGET PASSWORD SCREEN */
+/* Container */
+.forgpwd {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.forgpwd h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Select dropdown */
+.forgpwd select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+/* Input fields */
+.inputs input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+.inputs input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Button */
+.send-otp-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.send-otp-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Optional spacing for future messages or feedback */
+.forgpwd .message {
+  margin-top: 15px;
+  text-align: center;
+  color: #e63946;
+}
+
+/* FORGET PASSWORD SCREEN */
+
+.student-overview-container {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.tiles-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.tile {
+  flex: 1;
+  min-width: 250px;
+  background-color: #f5f7fa;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tile h3 {
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+.profile-tile p {
+  margin: 0.3rem 0;
+}
+
+.tile-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff;
 }

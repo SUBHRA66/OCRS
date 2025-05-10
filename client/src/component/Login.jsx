@@ -73,6 +73,9 @@ export const Login = () => {
     }
   };
 
+  const forgetPasswordHandler = () =>{
+    navigate("/forget-password");
+  }
   return (
     <div className="login-container">
       <div className="dropdown">
@@ -95,7 +98,6 @@ export const Login = () => {
         )}
 
         <div className="input">
-          {/* <img src={emailIcon} alt="" /> */}
           <input
             value={role === "student" ? rollno : email}
             onChange={(e) =>
@@ -122,6 +124,7 @@ export const Login = () => {
         </div>
       </div>
       <div className="submit-container">
+        <span className="forget-pwd" onClick={forgetPasswordHandler}>Forget password</span>
         <button className="submitBtn" onClick={loginhandler}>
           Log In
         </button>

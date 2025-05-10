@@ -21,16 +21,16 @@ export const AdvisorCourseReg = () => {
   return (
     // HEADER COMPONENT
     <div className="main">
-      <div className="header">
-        <div className="header__student-info">
-          <img className="header__student-img" src={studentImg} alt="Student" />
-          <div className="header__student-details">
-            <div className="header__student-name">{student.sname}</div>
-            <div className="header__student-rollno">
+      <div className="student-header">
+        <div className="h-student-info">
+          <img className="h-student-img" src={studentImg} alt="Student" />
+          <div className="h-student-details">
+            <div className="h-student-name">{student.sname}</div>
+            <div className="h-student-rollno">
               Roll No: {student.rollno}
             </div>
-            <div className="header__student-sem">Semester: {student.ssem}</div>
-            <div className="header__student-cgpa">CGPA: {student.scgpa}</div>
+            <div className="h-student-sem">Semester: {student.ssem}</div>
+            <div className="h-student-cgpa">CGPA: {student.scgpa}</div>
           </div>
         </div>
       </div>

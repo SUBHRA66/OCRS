@@ -1,3 +1,4 @@
+import { FaHome, FaUser, FaChartBar, FaCog } from "react-icons/fa";
 export const faculyNavLinks = [
   { name: "OVERVIEW", path: "/faculty/dashboard/overview" },
   { name: "PROFILE", path: "/faculty/dashboard/profile" },
@@ -13,7 +14,7 @@ export const adminNavLInks = [
 ]
 
 export const studentNavLinks = [
-  { name: "OVERVIEW", path: "/student/dashboard/overview"},
+  { name: "HOME", path: "/student/dashboard/overview"},
   { name: "PROFILE", path: "/student/dashboard/profile"},
   { name: "CURRENT SEMESTER", path: "/student/dashboard/curr-sem"},
   { name: "COURSE REGISTRATION", path: "/student/dashboard/course-reg"}
