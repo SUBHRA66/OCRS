@@ -9,7 +9,7 @@ export const Header = () => {
   const faculty = useSelector((state) => state.faculty);
   const advisor = useSelector((state) => state.advisor);
   const admin = useSelector((state) => state.admin);
-  const userName = student?.sname || faculty?.insName || advisor?.advName || admin?.adminName
+  const userName = advisor?.advName  || faculty?.insName || admin?.adminName ||student?.sname
 
   return (
     <header className="header-container">

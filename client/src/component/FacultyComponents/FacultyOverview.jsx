@@ -15,7 +15,7 @@ export const FacultyOverview = () =>{
         </div>
 
         <div className="tile completed-credits-tile">
-          <h3>Total years of experiencec</h3>
+          <h3>Total years of experience</h3>
           <p className="tile-number">16</p>
         </div>
 

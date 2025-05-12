@@ -17,5 +17,6 @@ export const studentNavLinks = [
   { name: "HOME", path: "/student/dashboard/overview"},
   { name: "PROFILE", path: "/student/dashboard/profile"},
   { name: "CURRENT SEMESTER", path: "/student/dashboard/curr-sem"},
-  { name: "COURSE REGISTRATION", path: "/student/dashboard/course-reg"}
+  { name: "COURSE REGISTRATION", path: "/student/dashboard/course-reg"},
+  { name: "PAST SEMESTERS", path: "/student/dashboard/past-semester"}
 ]

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
+import { CourseList } from "../CourseList";
 
 export const AdvisorCurrSem = () => {
   const student = useSelector((state) => state.student);
@@ -32,25 +33,7 @@ export const AdvisorCurrSem = () => {
         <h2>
           <em>CURRENT SEMESTER COURSES SELECTED BY {student.sname}</em>
         </h2>
-        {regCourses.map((rc) => (
-          <div key={rc.ccode} className="course-item">
-            <div className="cname">
-              <strong>{rc.cname}</strong>
-            </div>
-            <div className="cname">
-              Course Code: <strong>{rc.ccode}</strong>
-            </div>
-            <div className="cname">
-              Course Credit: <strong>{rc.ccredit}</strong>
-            </div>
-            <div className="cname">
-              Course Type: <strong>{rc.ctype}</strong>
-            </div>
-            <div className="cname">
-              semester: <strong>{rc.csem}th</strong>
-            </div>
-          </div>
-        ))}
+        <CourseList courses={regCourses} user={student} type={"advisor"}/>
       </div>
     );
   }

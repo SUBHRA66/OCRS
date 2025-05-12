@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../../utils/constants";
+import { CourseList } from "../CourseList";
+import { useSelector } from "react-redux";
 
 export const FacultyCourses = () => {
+  const faculty = useSelector((state) => state.faculty);
   const [mycourses, setMycourses] = useState([]);
 
   useEffect(() => {
@@ -15,29 +18,5 @@ export const FacultyCourses = () => {
     fetchCourse();
   }, []);
   console.log(mycourses);
-  return (
-    <div className="my-courses-container">
-      {mycourses.map((course) => (
-        <div key={course.code} className="course-row">
-          <div className="course-detail">
-            <strong>{course.cname}</strong>
-          </div>
-          <div className="course-detail">
-            Course Code: <strong>{course.ccode}</strong>
-          </div>
-          <div className="course-detail">
-            Credit:<strong>{course.ccredit}</strong>
-          </div>
-          <div className="course-detail">
-            <strong>Type:</strong> {course.ctype}
-          </div>
-
-          <div className="course-detail">
-            Semester: <strong>6</strong>
-          </div>
-          <button className="course-button">See Students</button>
-        </div>
-      ))}
-    </div>
-  );
+  return <CourseList courses={mycourses} user={faculty} type={"faculty"} />;
 };

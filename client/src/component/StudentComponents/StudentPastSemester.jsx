@@ -1,10 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { BASE_URL } from "../../utils/constants";
 import { CourseList } from "../CourseList";
+import axios from "axios";
+import { BASE_URL } from "../../utils/constants";
 
-export const StudentCurrentSemester = () => {
+export const StudentPastSemester = () => {
   const student = useSelector((state) => state.student);
   const [courses, setCourses] = useState([]);
   const [creditCount, setCreditCount] = useState({});
@@ -14,7 +15,7 @@ export const StudentCurrentSemester = () => {
         BASE_URL + "student/profile/registered-courses",
         { withCredentials: true }
       );
-      setCourses(response.data.courses.filter((c) => (c.status == "enrolled")));
+      setCourses(response.data.courses.filter((c) => (c.status == "completed")));
       setCreditCount(response.data.creditCount);
     }
     fetchRegisteredCourse();
@@ -22,13 +23,15 @@ export const StudentCurrentSemester = () => {
   console.log(courses);
   if (!courses || courses.length === 0) {
     return (
-      <div className="no-courses">
-        You have not selected any course for this semester yet.
-      </div>
+      <div className="no-courses">You have not completed any courses yet</div>
     );
   } else {
     return (
-      <CourseList courses={courses} creditCount={creditCount.enrolledCredit} user={student} />
+      <CourseList
+        courses={courses}
+        creditCount={creditCount.completedCredit}
+        user={student}
+      />
     );
   }
 };

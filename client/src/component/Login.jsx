@@ -1,5 +1,5 @@
 import axios from "axios";
-import { use, useState } from "react";
+import { useState } from "react";
 import { addStudent } from "../slices/studentSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,19 +7,29 @@ import { BASE_URL } from "../utils/constants";
 import { addFaculty } from "../slices/facultySlice";
 import { addAdvisor } from "../slices/advisorSlice";
 import { addAdmin } from "../slices/adminSlice";
+import { ToastContainer, toast } from "react-toastify";
+import validator from "validator";
+import { ToastMessage } from "./ToastMessage";
 
 export const Login = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [action, setAction] = useState("Login"); //not required to be honest
+  const [clickedLoggedin, setClickedLoggedin] = useState(false);
   const [role, setRole] = useState("");
   const [rollno, setRollno] = useState("");
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
+  const [msg, setMsg] = useState("Enter Credentials to login");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const displayMsg = (msg) => {
+    toast(<ToastMessage message={msg} />);
+  };
+
   const loginhandler = async () => {
+    if (validator.isEmpty(role)) displayMsg("Enter Credentials to login");
     console.log("Login Button was clicked");
+    setClickedLoggedin(true);
+    let data, flag, message;
     if (role === "student") {
       const response = await axios.post(
         BASE_URL + "student/login",
@@ -29,10 +39,17 @@ export const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(response);
-      setIsLoggedIn(true);
-      dispatch(addStudent(response.data.data));
-      return navigate("./student/dashboard");
+      ({ data, flag, message } = response.data);
+      setMsg(message);
+      if (flag == 1) {
+        dispatch(addStudent(data));
+        return navigate("/student/dashboard");
+      } else {
+        setMsg(message);
+        displayMsg(message);
+        console.log(message);
+        return navigate("/");
+      }
     } else if (role === "faculty") {
       const response = await axios.post(
         BASE_URL + "faculty/login",
@@ -44,11 +61,15 @@ export const Login = () => {
           withCredentials: true,
         }
       );
-
-      console.log(response)
-      dispatch(addFaculty(response.data.data))
-      setIsLoggedIn(true);
-      navigate("/faculty/dashboard");
+      ({ data, flag, message } = response.data);
+      if (flag == 1) {
+        dispatch(addFaculty(data));
+        navigate("/faculty/dashboard");
+      } else {
+        setMsg(message);
+        displayMsg(message);
+        return navigate("/");
+      }
     } else if (role === "advisor") {
       const response = await axios.post(
         BASE_URL + "advisor/login",
@@ -58,28 +79,51 @@ export const Login = () => {
         },
         { withCredentials: true }
       );
+      ({ data, flag, message } = response.data);
       console.log(response);
-      setIsLoggedIn(true);
-      dispatch(addAdvisor(response.data.data));
-      return navigate("/advisor/dashboard");
+      if (flag == 1) {
+        dispatch(addAdvisor(data));
+        return navigate("/advisor/dashboard");
+      } else {
+        setMsg(message);
+        displayMsg(message);
+        return navigate("/");
+      }
     } else if (role === "admin") {
-      const response = await axios.post(BASE_URL + "admin/login", {
-        adminEmail: email,
-        adminPwd: passwd,
-      }, {withCredentials: true});
-      dispatch(addAdmin(response.data.data))    
-      setIsLoggedIn(true);
-      navigate("/admin/dashboard");
+      const response = await axios.post(
+        BASE_URL + "admin/login",
+        {
+          adminEmail: email,
+          adminPwd: passwd,
+        },
+        { withCredentials: true }
+      );
+      ({ data, flag, message } = response.data);
+      if (flag == 1) {
+        dispatch(addAdmin(data));
+        return navigate("/admin/dashboard");
+      } else {
+        setMsg(message);
+        displayMsg(message);
+        console.log("here");
+        return navigate("/");
+      }
     }
   };
 
-  const forgetPasswordHandler = () =>{
+  const forgetPasswordHandler = () => {
     navigate("/forget-password");
-  }
+  };
+
   return (
     <div className="login-container">
       <div className="dropdown">
         <div className="dropdowntext">Select Role</div>
+        {clickedLoggedin && validator.isEmpty(role) && (
+          <div style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+            Select a role
+          </div>
+        )}
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="">Select one</option>
           <option value="student">Student</option>
@@ -89,13 +133,13 @@ export const Login = () => {
         </select>
       </div>
       <div className="inputs">
-        {action === "Login" ? (
-          <div></div>
-        ) : (
-          <div className="input">
-            <input type="text" placeholder="Name" name="Name" />
-          </div>
-        )}
+        {clickedLoggedin &&
+          validator.isEmpty(rollno) &&
+          validator.isEmpty(email) && (
+            <div style={{ color: "red", fontSize: "14px" }}>
+              {role == "student" ? "rollno" : "email"} cannot be empty
+            </div>
+          )}
 
         <div className="input">
           <input
@@ -110,8 +154,12 @@ export const Login = () => {
             name={role === "student" ? "rollno" : "email"}
           />
         </div>
+        {clickedLoggedin && validator.isEmpty(passwd) && (
+          <div style={{ color: "red", fontSize: "14px" }}>
+            password cannot be empty
+          </div>
+        )}
         <div className="input">
-          {/* <img src={passwordIcon} alt="" /> */}
           <input
             type="password"
             placeholder="Password"
@@ -124,10 +172,20 @@ export const Login = () => {
         </div>
       </div>
       <div className="submit-container">
-        <span className="forget-pwd" onClick={forgetPasswordHandler}>Forget password</span>
-        <button className="submitBtn" onClick={loginhandler}>
+        <span className="forget-pwd" onClick={forgetPasswordHandler}>
+          Forget password
+        </span>
+
+        <button
+          className="submitBtn"
+          onClick={() => {
+            loginhandler();
+            setClickedLoggedin(true);
+          }}
+        >
           Log In
         </button>
+        <ToastContainer />
       </div>
     </div>
   );

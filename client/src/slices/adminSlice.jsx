@@ -7,7 +7,7 @@ const adminSlice = createSlice({
   },
   reducers: {
     addAdmin: (state, action) => {
-      state.items = action.payload;
+      return action.payload;
     },
     removeAdmin: (state) => {
       state.items = null;

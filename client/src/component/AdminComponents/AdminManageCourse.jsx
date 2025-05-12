@@ -1,12 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../utils/constants";
+import { CourseList } from "../CourseList";
+import { useSelector } from "react-redux";
 
 export const AdminManageCourse = () => {
   const [school, setSchool] = useState("");
   const [department, setDepartment] = useState("");
   const [courses, setCourses] = useState([]);
-
+  const admin = useSelector((state) => state.admin);
   useEffect(() => {
     if (school && department) {
       async function getAllCourses(school, department) {
@@ -15,15 +17,17 @@ export const AdminManageCourse = () => {
           { cschool: school, cdept: department },
           { withCredentials: true }
         );
+        console.log(response.data.data);
         setCourses(response.data.data);
       }
       getAllCourses(school, department);
     }
   }, [school, department]);
   const temp = school && department;
-
+  console.log(courses);
   const onClickHander = () => {};
   return (
+    // <CourseList courses={courses} user={admin} type={"admin"}/>)
     <div className="admin-manage-course">
       <div className="admin-manage-course-header">MANAGE COURSES</div>
       <div className="filter-row">
@@ -51,24 +55,9 @@ export const AdminManageCourse = () => {
       </div>
 
       {school && department ? (
-        <div className="course-list">
-          {courses.map((course, index) => (
-            <div key={index} className="course-item">
-              <div className="course-info">
-                <div className="course-name">{course.cname}</div>
-                <div className="course-code">
-                  Course Code: <strong>{course.ccode}</strong>
-                </div>
-                <div className="course-credit">
-                  Credits: <strong>{course.ccredit}</strong>
-                </div>
-              </div>
-              <button className="modify-button">Modify</button>
-            </div>
-          ))}
-        </div>
+        <CourseList courses={courses} user={admin} type={"admin"} />
       ) : (
-        <div className="text">SELECT SCHOOL AND DEPARTMENT TO BEGIN WITH</div>
+        <div className="text" style={{textAlign: "center"}}>SELECT SCHOOL AND DEPARTMENT TO BEGIN WITH</div>
       )}
     </div>
   );

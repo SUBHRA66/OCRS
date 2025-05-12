@@ -28,6 +28,8 @@ import { AdvisorCurrSem } from "./component/AdvisorComponents/AdvisorCurrSem";
 import { StudentCourseRegistration } from "./component/StudentComponents/StudentCourseRegistration";
 import { ForgetPassword } from "./component/ForgetPassword";
 import { StudentOverview } from "./component/StudentComponents/StudentOverview";
+import { StudentPastSemester } from "./component/StudentComponents/StudentPastSemester";
+import { AdminOverview } from "./component/AdminComponents/AdminOverview";
 
 
 const Layout = () => {
@@ -43,8 +45,8 @@ const Layout = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/forget-password" element = {<ForgetPassword/>} />
-        {/* STUDENT ROUTES */}
 
+        {/* STUDENT ROUTES */}
         {student && (
           <Route>
             <Route path="/student/dashboard" element={<StudentDashboard />}>
@@ -52,6 +54,7 @@ const Layout = () => {
               <Route path="overview" element={<StudentOverview />} />
               <Route path="profile" element={<StudentProfile />} />
               <Route path="curr-sem" element={<StudentCurrentSemester />} />
+              <Route path="past-semester" element={<StudentPastSemester />} />
               <Route
                 path="course-reg"
                 element={<StudentCourseRegistration />}
@@ -80,7 +83,7 @@ const Layout = () => {
         {admin && (
           <Route path="/admin/dashboard" element={<AdminDashboard />}>
             <Route index element={<Navigate to="overview" replace />} />
-            <Route path="overview" element={<FacultyOverview />} />
+            <Route path="overview" element={<AdminOverview />} />
             <Route path="profile" element={<AdminProfile />} />
             <Route path="manage-course" element={<AdminManageCourse />} />
             <Route path="manage-student" element={<AdminManageStudent />} />
