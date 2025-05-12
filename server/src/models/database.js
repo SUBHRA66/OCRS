@@ -132,9 +132,18 @@ export const findCourse = async (csem, cdept) => {
 export const getBacklogCourses = async (cdept, csem) => {
   const [pastCourses] = await pool.query(
     `SELECT * FROM Courses
-    WHERE cdept = ? AND csem != ?`,
+    WHERE cdept = ? AND csem < ?`,
     [cdept, csem]
   );
 
   return pastCourses;
 };
+
+
+export const dada = () =>{
+
+  backlogCourses.filter((bc)=>bc.csem < sem).map((course) =>{
+    
+  })
+
+}

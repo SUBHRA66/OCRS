@@ -134,9 +134,9 @@ export const ApproveRequest = async (req, res) => {
 
 export const courses = async (req, res) => {
   try {
-    const { rollno, ssem, sdept } = req.user;
+    const { rollno, ssem, sdept, sprogram } = req.user;
     const [courses] = await pool.query(
-      "SELECT * FROM courses WHERE csem = ? AND cdept = ?",
+      "SELECT * FROM courses C WHERE csem = ? AND cdept = ?",
       [ssem, sdept]
     );
 
@@ -151,7 +151,7 @@ export const courseRegReq = async (req, res) => {
     const { rollno } = req.user;
 
     const [rows] = await pool.query(
-      `SELECT c.ccode, c.cname, c.ccredit, c.ctype, rq.status
+      `SELECT c.ccode, c.cname, c.ccredit, rq.status
       FROM regreq rq
       INNER JOIN courses c ON rq.ccode = c.ccode
       INNER JOIN student s ON rq.rollno = s.rollno
@@ -234,12 +234,25 @@ export const seeCourses = async (req, res) => {
 export const myRegisteredCourses = async (req, res) => {
   try {
     const { rollno } = req.user;
-    const QUERY = `SELECT C.* FROM courses C
+    const QUERY = `SELECT C.ccode, C.cname, C.ccredit, C.ctype, C.cschool, C.csem, C.cins, C.cadv, SC.status FROM courses C
       JOIN StudentCourses SC ON C.ccode = SC.ccode
       JOIN student S ON SC.rollno = S.rollno
       WHERE S.rollno = ?`;
 
     const [courses] = await pool.query(QUERY, [rollno]);
+    let enrolledCredit=0, completedCredit=0, credit = {};
+    console.log(courses);
+    console.log("wolverine")
+    courses.filter((c) => c.status == "enrolled").map((item)=>{
+      enrolledCredit = enrolledCredit + item.ccredit;
+    })
+    console.log("jjjjjjjjjjjjjjjjjj: " +enrolledCredit)
+    courses.filter((c) => c.status == "completed").map((item)=>{
+      completedCredit = completedCredit + item.ccredit;
+    })
+    credit["enrolledCredit"] = enrolledCredit;
+    credit["completedCredit"] = completedCredit;
+    console.log(credit);
     if (!courses) {
       return res.json({
         message: "You have not selected any courses this semester yet.",
@@ -247,7 +260,8 @@ export const myRegisteredCourses = async (req, res) => {
     }
     res.json({
       message: "Your registered Courses",
-      courses,
+      courses: courses,
+      creditCount: credit
     });
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
@@ -275,6 +289,8 @@ export const getRequests = async (req, res) => {};
 export const seeStudents = async (req, res) => {
   try {
     const { advId } = req.user;
+    let r,
+      flagArr = [];
     let response = await pool.query(
       `SELECT semester FROM AdvisorSemester 
       WHERE advId  = ?`,
@@ -285,7 +301,21 @@ export const seeStudents = async (req, res) => {
       semesters[0],
       semesters[1],
     ]);
-    res.send(response[0]);
+    await Promise.all(
+      response[0].map(async (std) => {
+        r = await pool.query(
+          `SELECT rq.status FROM regreq rq
+          INNER JOIN student s 
+          ON s.rollno = rq.rollno
+          WHERE s.rollno = ?`,
+          [std.rollno]
+        );
+        std.status = r[0][0]?.status || null;
+        console.log(std.status);
+      })
+    );
+    console.log(response[0]);
+    res.json({ data: response[0] });
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
   }

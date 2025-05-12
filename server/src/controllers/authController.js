@@ -10,7 +10,7 @@ export const studentLogin = async (req, res) => {
     const CREDENTIAL = "rollno";
     const user = await findOne(TABLE, CREDENTIAL, rollno);
     if (!user) {
-      return res.json({ message: "Student record does not exists!" });
+      return res.json({ message: "Student record does not exists!", flag: 0 });
     }
     if (password === user.pwd) {
       const token = await generateJWT(
@@ -26,13 +26,16 @@ export const studentLogin = async (req, res) => {
         sameSite: "Strict",
       });
 
-      // return res.send("LOGGED IN SUCCESFULLY!! WELCOME " + user?.sname);
       return res.json({
         message: `LOGGED IN SUCCESFULLY!!! WELCOME ${user?.sname}`,
         data: user,
+        flag: 1
       });
     } else {
-      return res.status(400).send("Invalid credentials");
+      return res.json({
+        message: "Invalid credentials", 
+        flag: 2
+      });
     }
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
@@ -52,7 +55,7 @@ export const facultyLogin = async (req, res) => {
     const CREDENTIAL = "insEmail";
     const user = await findOne(TABLE, CREDENTIAL, insEmail);
     if (!user) {
-      return res.json({ message: "Faculty record does not exists!" });
+      return res.json({ message: "Faculty record does not exists!", flag: 0 });
     }
 
     if (insPwd === user.insPwd) {
@@ -71,9 +74,13 @@ export const facultyLogin = async (req, res) => {
       return res.json({
         message: "LOGGED IN  SUCCESFULLY!!" + "Welcome " + user.insName,
         data: user,
+        flag: 1
       });
     } else {
-      throw new Error("Invalid credentials");
+      return res.json({
+        message: "Invalid credentials",
+        flag: 2
+      });
     }
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
@@ -93,7 +100,7 @@ export const adminLogin = async (req, res) => {
     const CREDENTIAL = "adminEmail";
     const user = await findOne(TABLE, CREDENTIAL, adminEmail);
     if (!user) {
-      return res.json({ message: "Admin not found!" });
+      return res.json({ message: "Admin not found!", flag: 0 });
     }
     if (adminPwd === user.adminPwd) {
       const token = await generateJWT(
@@ -112,9 +119,13 @@ export const adminLogin = async (req, res) => {
       res.json({
         message: "LOGGED IN SUCCESFULLY!! " + "Welcome Admin " + user.adminName,
         data: user,
+        flag: 1
       });
     } else {
-      throw new Error("Invalid credentials");
+      return res.send({
+        message: "Invalid credential", 
+        flag: 2
+      })
     }
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
@@ -134,7 +145,7 @@ export const advisorLogin = async (req, res) => {
     const CREDENTIAL = "advEmail";
     const user = await findOne(TABLE, CREDENTIAL, advEmail);
     if (!user) {
-      return res.json({ message: "Advior not found!" });
+      return res.json({ message: "Advior not found!", flag: false });
     }
     if (advPwd === user.advPwd) {
       const token = await generateJWT(
@@ -153,9 +164,13 @@ export const advisorLogin = async (req, res) => {
       res.json({
         message: "LOGGED IN SUCCESFULLY!! " + "Welcome advisor " + user.advName,
         data: user,
+        flag: true
       });
     } else {
-      throw new Error("Invalid credentials");
+      res.json({
+        message: "Invalid Credentials",
+        flag: false
+      })
     }
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
