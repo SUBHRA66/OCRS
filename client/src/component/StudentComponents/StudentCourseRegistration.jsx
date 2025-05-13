@@ -56,7 +56,7 @@ export const StudentCourseRegistration = () => {
       setApproved(false);
       setRequested(false);
       const requestedCourses = response.data.rows;
-      console.log(requestedCourses)
+      console.log(requestedCourses);
       if (requestedCourses.length > 0) {
         const { status } = requestedCourses[0];
         setFlag(true);
@@ -177,8 +177,9 @@ export const StudentCourseRegistration = () => {
                   <div className="course-details">
                     <h3 className="course-name">{course.cname}</h3>
                     <p className="course-info">
-                      Credit: {course.ccredit} | Code: {course.ccode} | Type:{" "}
-                      {course.ctype}
+                      Credit: {course.ccredit} | Code:{" "}
+                      {course.ccode} | Type:{" "}
+                      {course.ctype} 
                     </p>
                   </div>
                   <div className="course-actions">
@@ -200,8 +201,9 @@ export const StudentCourseRegistration = () => {
                   <div className="course-details">
                     <h3 className="course-name">{course.cname}</h3>
                     <p className="course-info">
-                      Credit: {course.ccredit} | Code: {course.ccode} | Type:{" "}
-                      {course.ctype}
+                      Credit: {course.ccredit} | Code:{" "}
+                      {course.ccode} | Type:{" "}
+                      {course.ctype} 
                     </p>
                   </div>
                   <div className="course-actions">
@@ -272,14 +274,24 @@ export const StudentCourseRegistration = () => {
   } else if (flag) {
     return (
       <div className="already-requested-container">
-        <div className="already-requested"  >
-          <p style={{color: "grey"}}>REQUEST SENT</p>
+        <div className="already-requested">
+          <p style={{ color: "grey" }}>REQUEST SENT</p>
           {approved ? (
-            <p style={{color: "green", textAlign: "center"}} ><strong>YOUR COURSE REGISTRATION REQUEST HAS BEEN APPROVED</strong></p>
+            <p style={{ color: "green", textAlign: "center" }}>
+              <strong>
+                YOUR COURSE REGISTRATION REQUEST HAS BEEN APPROVED
+              </strong>
+            </p>
           ) : rejected ? (
-            <p style={{color: "red", textAlign: "center"}}><stong>REGISTRATION REQUEST REJECTED BY THE ADVISOR</stong></p>
+            <p style={{ color: "red", textAlign: "center" }}>
+              <stong>REGISTRATION REQUEST REJECTED BY THE ADVISOR</stong>
+            </p>
           ) : (
-            <p style={{color: "#1cb0e3", textAlign: "center"}}><strong>REGISTRATION REQUEST YET TO BE APPROVED BY THE ADVISOR</strong></p>
+            <p style={{ color: "#1cb0e3", textAlign: "center" }}>
+              <strong>
+                REGISTRATION REQUEST YET TO BE APPROVED BY THE ADVISOR
+              </strong>
+            </p>
           )}
           <button className="request-again" onClick={HandleRequestAgain}>
             SEND REQUEST AGAIN
@@ -290,15 +302,16 @@ export const StudentCourseRegistration = () => {
           {approved ? (
             <h1>YOUR APPROVED COURSES</h1>
           ) : (
-            <h1 style={{textAlign:"center"}}>YOUR REQUESTED COURSES</h1>
+            <h1 style={{ textAlign: "center" }}>YOUR REQUESTED COURSES</h1>
           )}
           {preExistingCourse.map((course, index) => (
             <div key={index} className="course-card">
               <h4 className="course-name">{course.cname}</h4>
-              <p className="course-details">
-                Code: {course.ccode} | Credits: {course.ccredit} | Type:{" "}
-                {course.ctype}
-              </p>
+              <p className="course-info">
+                      Credit: {course.ccredit} | Code:{" "}
+                      {course.ccode} | Type:{" "}
+                      {course.ctype} 
+                    </p>
               <hr className="divider" />
             </div>
           ))}

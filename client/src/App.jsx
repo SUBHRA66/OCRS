@@ -4,7 +4,7 @@ import { Login } from "./component/Login";
 import { StudentDashboard } from "./component/StudentComponents/StudentDashboard";
 import { Header } from "./component/Header";
 import { Provider } from "react-redux";
-import { store } from "./utils/store";
+import { persistor, store } from "./utils/store";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { StudentProfile } from "./component/StudentComponents/StudentProfile";
 import { useSelector } from "react-redux";
@@ -30,7 +30,9 @@ import { ForgetPassword } from "./component/ForgetPassword";
 import { StudentOverview } from "./component/StudentComponents/StudentOverview";
 import { StudentPastSemester } from "./component/StudentComponents/StudentPastSemester";
 import { AdminOverview } from "./component/AdminComponents/AdminOverview";
-
+import { AdvisorCompletedCourses } from "./component/AdvisorComponents/AdvisorCompletedCourses";
+import { AdvisorMyCourses } from "./component/AdvisorComponents/AdvisorMyCourses";
+import { PersistGate } from "redux-persist/integration/react";
 
 const Layout = () => {
   const student = useSelector((state) => state.student);
@@ -44,7 +46,7 @@ const Layout = () => {
 
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/forget-password" element = {<ForgetPassword/>} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
 
         {/* STUDENT ROUTES */}
         {student && (
@@ -78,8 +80,8 @@ const Layout = () => {
             </Route>
           </Route>
         )}
-        {/* ADMIN ROUTES */}
 
+        {/* ADMIN ROUTES */}
         {admin && (
           <Route path="/admin/dashboard" element={<AdminDashboard />}>
             <Route index element={<Navigate to="overview" replace />} />
@@ -98,6 +100,7 @@ const Layout = () => {
               path="/advisor/course-reg/students"
               element={<AdvisorSeeStudents />}
             />
+            <Route path="/advisor/my-courses" element={<AdvisorMyCourses />} />
 
             <Route
               path="/advisor/course-reg/students/dash"
@@ -106,7 +109,10 @@ const Layout = () => {
               <Route index element={<Navigate to="manage-req" replace />} />
               <Route path="manage-req" element={<AdvisorManageRequests />} />
               <Route path="curr-sem" element={<AdvisorCurrSem />} />
-              <Route path="completed-courses" element={<AdvisorCurrSem />} />
+              <Route
+                path="completed-courses"
+                element={<AdvisorCompletedCourses />}
+              />
             </Route>
           </Route>
         )}
@@ -119,6 +125,8 @@ const Layout = () => {
 const root = reactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <Layout />
+    <PersistGate loading={null} persistor={persistor}>
+      <Layout />
+    </PersistGate>
   </Provider>
 );

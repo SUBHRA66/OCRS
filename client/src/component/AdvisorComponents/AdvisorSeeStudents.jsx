@@ -17,7 +17,6 @@ export const AdvisorSeeStudents = () => {
     });
     return response;
   };
-  console.log(students);
   useEffect(() => {
     async function fetchStd() {
       const response = await fetchStudents();

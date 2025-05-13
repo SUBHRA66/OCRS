@@ -8,6 +8,7 @@ export const AdvisorManageRequests = () => {
   const [creditCount, setCreditCount] = useState(0);
   const [approved, setApproved] = useState(false);
   const [rejected, setRejected]= useState(false);
+  console.log(requests)
   useEffect(() => {
     async function getAllRequests(rollno) {
       const response = await axios.get(

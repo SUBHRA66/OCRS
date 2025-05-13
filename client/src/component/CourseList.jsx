@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export const CourseList = ({ courses, creditCount, user, type }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredCourses, setFilteredCourses] = useState(courses); 
+  const [filteredCourses, setFilteredCourses] = useState(courses);
   const handleSearch = (query) => {
     setSearchQuery(query);
     const filtered = courses.filter(
@@ -12,9 +12,7 @@ export const CourseList = ({ courses, creditCount, user, type }) => {
     );
     setFilteredCourses(filtered);
   };
-const ModifyCourseHandler = ()=>{
-
-}
+  const ModifyCourseHandler = () => {};
   console.log(courses);
   return (
     <>
@@ -43,28 +41,37 @@ const ModifyCourseHandler = ()=>{
               onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
-        ) : (
+        ) : type != "advisor" ? (
           <div className="std-total-cr-selected">
             Total Credit: {creditCount}
           </div>
+        ) : (
+          <div className=""></div>
         )}
-        {(filteredCourses.length > 0 ? filteredCourses : courses).map((item, index) => (
-          <div key={index} className="std-course-item">
-            <div className="std-cname">{item.cname}</div>
-            <div className="std-ccode">
-              Course Code: <strong>{item.ccode}</strong>{" "}
+        {(filteredCourses.length > 0 ? filteredCourses : courses).map(
+          (item, index) => (
+            <div key={index} className="std-course-item">
+              <div className="std-cname">{item.cname}</div>
+              <div className="std-ccode">
+                Course Code: <strong>{item.ccode}</strong>{" "}
+              </div>
+              <div className="std-ccredit">
+                Course Credit <strong>{item.ccredit}</strong>
+              </div>
+              <div className="std-ccredit">
+                Semester <strong>{item.csem}</strong>
+              </div>
+              {type == "faculty" && (
+                <button className="course-button">See students</button>
+              )}
+              {type == "admin" && (
+                <button className="course-button" onClick={ModifyCourseHandler}>
+                  Modify
+                </button>
+              )}
             </div>
-            <div className="std-ccredit">
-              Course Credit <strong>{item.ccredit}</strong>
-            </div>
-            {type == "faculty" && (
-              <button className="course-button">See students</button>
-            )}
-            {type == "admin" && (
-              <button className="course-button" onClick={ModifyCourseHandler}>Modify</button>
-            )}
-          </div>
-        ))}
+          )
+        )}
       </div>
     </>
   );

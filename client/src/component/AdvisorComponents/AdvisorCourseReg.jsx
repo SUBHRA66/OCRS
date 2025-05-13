@@ -1,4 +1,4 @@
-import studentImg from "../../assests/pppp.jpg";
+import studentImg from "../../assests/human.png";
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 

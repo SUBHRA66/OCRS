@@ -1,10 +1,9 @@
-import axios from "axios";
-import { addAdvisor } from "../../slices/advisorSlice";
-import { BASE_URL } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import AdvisoImg from "../../assests/pppp.jpg";
-import { Navbar } from "../Navbar";
+import { useNavigate } from "react-router-dom";
+import AdvisoImg from "../../assests/human.png";
+import { removeAdvisor } from "../../slices/advisorSlice";
+import axios from "axios";
+import { BASE_URL } from "../../utils/constants";
 export const AdvisorDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -12,6 +11,19 @@ export const AdvisorDashboard = () => {
   const courseRegHandler = () => {
     console.log("course registration portal from Advisor");
     navigate("/advisor/course-reg/students");
+  };
+
+  const AsFaculty = () => {
+    navigate("/advisor/my-courses");
+  };
+  const logoutHandler = async () => {
+    const response = await axios.post(
+      BASE_URL + "advisor/logout",
+      {},
+      { withCredentials: true }
+    );
+    console.log(response)
+    dispatch(removeAdvisor());
   };
   return (
     <div className="dashboard-container">
@@ -26,13 +38,17 @@ export const AdvisorDashboard = () => {
         </div>
 
         <div className="button-islands">
-          <div className="island-button" onClick={courseRegHandler}>
+          <div className="island-button secondary" onClick={courseRegHandler}>
             <h3>Course Registration</h3>
             <p>View and manage course registrations</p>
           </div>
-          <div className="island-button secondary">
+          <div className="island-button secondary" onClick={AsFaculty}>
             <h3>Faculty Dashboard</h3>
             <p>Operate as a faculty</p>
+          </div>
+          <div className="island-button secondary" onClick={logoutHandler}>
+            <h3>LOGOUT</h3>
+            <p>Go to login page</p>
           </div>
         </div>
       </div>
