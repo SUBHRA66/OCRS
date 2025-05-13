@@ -90,6 +90,7 @@ const Layout = () => {
             <Route path="manage-course" element={<AdminManageCourse />} />
             <Route path="manage-student" element={<AdminManageStudent />} />
             <Route path="manage-faculty" element={<AdminManageFaculty />} />
+            <Route path="modify-faculty" element={<AdminManageFaculty />} />
           </Route>
         )}
         {advisor && (

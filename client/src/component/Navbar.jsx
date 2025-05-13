@@ -1,17 +1,13 @@
 import axios from "axios";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeAdmin } from "../slices/adminSlice";
 import { removeAdvisor } from "../slices/advisorSlice";
 import { removeStudent } from "../slices/studentSlice";
 import { removeFaculty } from "../slices/facultySlice";
 import {
   clearAllCourseState,
-  removeBacklogCourses,
-  removeCourses,
-  removeCreditCount,
-  removeSelectedCourse,
 } from "../slices/courseSlice";
 
 export const Navbar = ({ navLinks, user }) => {

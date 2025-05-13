@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const CourseList = ({ courses, creditCount, user, type }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const [filteredCourses, setFilteredCourses] = useState(courses);
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -12,11 +15,35 @@ export const CourseList = ({ courses, creditCount, user, type }) => {
     );
     setFilteredCourses(filtered);
   };
-  const ModifyCourseHandler = () => {};
+  const ModifyCourseHandler = (course) => {
+    setShowModal(true);
+    setSelectedCourse(course);
+  };
   console.log(courses);
   return (
     <>
       <div className="std-courses-container">
+        {showModal && selectedCourse && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Modify Course</h2>
+              <p>
+                <strong>Course Code:</strong> {selectedCourse.ccode}
+              </p>
+              <p>
+                <strong>Course Name:</strong> {selectedCourse.cname}
+              </p>
+              <p>
+                <strong>Credits:</strong> {selectedCourse.ccredit}
+              </p>
+
+              {/* You can add editable fields here */}
+
+              <button onClick={() => setShowModal(false)}>Close</button>
+            </div>
+          </div>
+        )}
+  
         {type == "faculty" ? (
           <div className="std-total-cr-selected">
             Total Credit: {creditCount}
@@ -65,7 +92,10 @@ export const CourseList = ({ courses, creditCount, user, type }) => {
                 <button className="course-button">See students</button>
               )}
               {type == "admin" && (
-                <button className="course-button" onClick={ModifyCourseHandler}>
+                <button
+                  className="course-button"
+                  onClick={() => ModifyCourseHandler(item)}
+                >
                   Modify
                 </button>
               )}

@@ -563,6 +563,7 @@ select:focus {
 /* COURSE REGISTRATION PAGE FOR STUDENTS------------------------------------ */
 .course-reg-container {
   padding: 20px;
+  padding-top: 0;
   font-family: sans-serif;
 }
 
@@ -1129,23 +1130,6 @@ select:focus {
 
 /* Student Course Registration Section */
 
-
-.student-course-reg__headline {
-  margin-bottom: 1.5rem;
-}
-
-.student-course-reg__headline h1 {
-  font-size: 1.75rem;
-  color: #333;
-}
-
-/* Requested Courses list */
-.student-course-reg__requested-courses {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 /* Individual course row */
 .course-row {
   background: #ffffff;
@@ -1246,9 +1230,10 @@ select:focus {
   color: white;
   display: flex;
   flex-direction: column;
-  padding: 2rem 1rem;
+  padding: 02rem 0rem;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 }
+
 
 .nav-heading {
   font-size: 1.4rem;
@@ -1307,7 +1292,8 @@ select:focus {
 /* Main Content Area */
 .common-dashboard-container {
   flex-grow: 1;
-  padding: 2rem;
+  padding: 0.5rem;
+  padding-top: 0;
   overflow-y: auto;
 }
 
@@ -1453,6 +1439,7 @@ select:focus {
 
 .student-course-reg {
   padding: 20px;
+  padding-top: 0;
   background-color: #f9fafb;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -1462,6 +1449,7 @@ select:focus {
 
 .student-course-reg__headline h1 {
   font-size: 1.5rem;
+  padding: 0;
   color: #1f2937;
   font-weight: 600;
 }
@@ -1470,16 +1458,16 @@ select:focus {
 .student-course-reg__requested-courses {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
   margin-bottom: 30px;
 }
 
 .course-row {
   display: flex;
+  width: 75vw;
   justify-content: space-between;
   align-items: center;
   background-color: #f3f4f6;
-  padding: 15px 20px;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;

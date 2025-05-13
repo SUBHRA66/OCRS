@@ -5,19 +5,10 @@ import { useNavigate } from "react-router-dom";
 import {
   addSelectedCourses,
   clearAllCourseState,
-  removeCourses,
   removeSelectedCourse,
 } from "../../slices/courseSlice";
 import { BASE_URL } from "../../utils/constants";
-import { ToastMessage } from "../ToastMessage";
-import { toast, ToastContainer } from "react-toastify";
 
-const getCourses = async () => {
-  const response = await axios.get(BASE_URL + "student/course-reg/courses", {
-    withCredentials: true,
-  });
-  return response;
-};
 
 //course registration page component
 export const StudentCourseRegistration = () => {
@@ -167,7 +158,7 @@ export const StudentCourseRegistration = () => {
         {saveSelection ? (
           <h2 className="course-reg-heading">COURSE SELECTION SAVED</h2>
         ) : (
-          <h2 className="course-reg-heading">SELECT COURSES</h2>
+          <h3 className="course-reg-heading">SELECT COURSES</h3>
         )}
         <ul className="course-list">
           {saveSelection ? (
