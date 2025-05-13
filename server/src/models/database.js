@@ -132,8 +132,8 @@ export const findCourse = async (csem, cdept) => {
 export const getBacklogCourses = async (cdept, csem) => {
   const [pastCourses] = await pool.query(
     `SELECT * FROM Courses
-    WHERE cdept = ? AND csem < ?`,
-    [cdept, csem]
+    WHERE csem < ? AND cdept IN (?,?)`,
+    [csem, cdept, "APS"]
   );
 
   return pastCourses;

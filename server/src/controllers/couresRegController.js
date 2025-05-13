@@ -130,10 +130,10 @@ export const ApproveRequest = async (req, res) => {
 
 export const courses = async (req, res) => {
   try {
-    const { rollno, ssem, sdept, sprogram } = req.user;
+    const { ssem, sdept, sprogram } = req.user;
     const [courses] = await pool.query(
-      "SELECT * FROM courses C WHERE csem = ? AND cdept = ?",
-      [ssem, sdept]
+      "SELECT * FROM courses C WHERE csem = ? AND cdept IN (?,?)",
+      [ssem, sdept, "APS"]
     );
 
     res.json({ message: "Courses available in your semester", courses });
