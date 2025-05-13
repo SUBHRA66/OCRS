@@ -1,8 +1,6 @@
 import {
   findReqByRollno,
   approveRequest,
-  findCourseByName,
-  sendRegReq,
   getBacklogCourses,
 } from "../models/database.js";
 import { pool } from "../config/config.js";
@@ -58,21 +56,19 @@ export const getAllRequest = async (req, res) => {
       WHERE advId = ?`,
       [advId]
     );
-
     //retrieve semester data of student
     const [ssem] = await pool.query(
-      `SELECT ssem FROM Student
-      WHERE rollno =?`,
+      `SELECT ssem FROM student
+      WHERE rollno = ?`,
       [rollno]
     );
-
     //checking if this advisor is assigned to this semester or not
     if (
       ssem[0].ssem == result[0].semester ||
       ssem[0].ssem == result[1].semester
     ) {
       const request = await findReqByRollno(rollno);
-
+      
       //calculate the total credits selected
       let creditCount = 0;
       request.forEach((key) => {
@@ -151,7 +147,7 @@ export const courseRegReq = async (req, res) => {
     const { rollno } = req.user;
 
     const [rows] = await pool.query(
-      `SELECT c.ccode, c.cname, c.ccredit, rq.status
+      `SELECT c.ccode, c.cname, c.ccredit, c.ctype, rq.status
       FROM regreq rq
       INNER JOIN courses c ON rq.ccode = c.ccode
       INNER JOIN student s ON rq.rollno = s.rollno
@@ -160,7 +156,6 @@ export const courseRegReq = async (req, res) => {
     );
     console.log(rows);
     res.json({ rows });
-    // res.json({data: rows[0]})
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
   }
@@ -168,6 +163,7 @@ export const courseRegReq = async (req, res) => {
 
 export const courseSelection = async (req, res) => {
   try {
+    let sem=0;
     const { rollno } = req.user;
     const { ccodes } = req.body;
     const [response] = await pool.query(
@@ -178,9 +174,11 @@ export const courseSelection = async (req, res) => {
     const flag = response[0].present;
     if (!flag) {
       ccodes.forEach(async (ccode) => {
-        await pool.query(`INSERT INTO regreq VALUES (?,?, false, ?)`, [
+        (sem = await pool.query( `SELECT csem FROM courses WHERE ccode = ?`, [ccode]))
+        await pool.query(`INSERT INTO regreq VALUES (?,?, false, ?, ?)`, [
           rollno,
           ccode,
+          sem[0][0].csem,
           "requested",
         ]);
       });
@@ -311,10 +309,8 @@ export const seeStudents = async (req, res) => {
           [std.rollno]
         );
         std.status = r[0][0]?.status || null;
-        console.log(std.status);
       })
     );
-    console.log(response[0]);
     res.json({ data: response[0] });
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
@@ -378,17 +374,34 @@ export const getAllFaculties = async (req, res) => {
 
 export const registeredCourses = async (req, res) => {
   try {
+    let enrolledCredit=0, completedCredit=0;
+    let credit = {};
     const rollno = req.params.rollno;
     const response = await pool.query(
-      `SELECT C.ccode, C.cname, C.csem, C.ccredit, C.ctype FROM Courses C
-      INNER JOIN StudentCourses SC
+      `SELECT C.ccode, C.cname, C.csem, C.ccredit, C.ctype, SC.status 
+      FROM Courses C
+      INNER JOIN studentcourses SC
       ON SC.ccode = C.ccode 
       WHERE SC.rollno = ?`,
       [rollno]
     );
+    console.log("wolverine")
+    console.log(response)
+
+    response[0].filter((c)=>c.status == "enrolled").map((c)=>{
+      enrolledCredit = enrolledCredit + c.ccredit;
+    })
+    credit["enrolledCredit"]=enrolledCredit;
+    console.log(enrolledCredit)
+    response[0].filter((c)=>c.status == "completed").map((c)=>{
+      completedCredit = completedCredit + c.ccredit;
+    })
+    credit["completedCredit"]=completedCredit;
+    console.log(completedCredit)
     res.json({
       message: "courses data fetched",
       data: response[0],
+      credit: credit
     });
   } catch (err) {
     res.send("ERROR: " + err.message);
@@ -413,3 +426,20 @@ export const RejectRequest = async (req, res) => {
     res.status(400).send("ERROR: " + err.message);
   }
 };
+
+export const myCourses = async (req, res)=>{
+  try{
+    const {advId} = req.user;
+    console.log(advId);
+    const response = await pool.query(
+      `SELECT * FROM courses
+      WHERE cins = ?`, [advId]
+    )
+    res.json({
+      message: "Courses", 
+      data: response[0]
+    })
+  }catch(err){
+    res.status(400).send("ERROR: " + err.message);
+  }
+}

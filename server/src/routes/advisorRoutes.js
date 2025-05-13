@@ -6,7 +6,8 @@ import {
   ApproveRequest,
   seeStudents,
   registeredCourses,
-  RejectRequest
+  RejectRequest,
+  myCourses
 } from "../controllers/couresRegController.js";
 import { auth } from "../middlewares/auth.js";
 export const advisorRouter = express.Router();
@@ -16,6 +17,11 @@ advisorRouter.get(
   "/profile",
   auth("Advisor", "advEmail", process.env.MYSQL_ADVISOR_TOKEN_PRIVATE_KEY),
   advisorProfile
+);
+advisorRouter.get(
+  "/adv-mycourses",
+  auth("Advisor", "advEmail", process.env.MYSQL_ADVISOR_TOKEN_PRIVATE_KEY),
+  myCourses
 );
 
 advisorRouter.get(
