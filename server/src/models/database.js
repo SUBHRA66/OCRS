@@ -129,16 +129,21 @@ export const findCourse = async (csem, cdept) => {
   );
 };
 
-export const getBacklogCourses = async (cdept, csem) => {
+export const getBacklogCourses = async (rollno, cdept, csem) => {
+  const [result] = await pool.query(
+    `SELECT * FROM Courses C
+    INNER JOIN studentCourses SC
+    ON C.ccode = SC.ccode
+    WHERE SC.rollno = ? AND SC.status = ?`, [rollno, "failed"]
+  )
+  console.log(result);
   const [pastCourses] = await pool.query(
     `SELECT * FROM Courses
     WHERE csem < ? AND cdept IN (?,?)`,
     [csem, cdept, "APS"]
   );
-
-  return pastCourses;
+  return result;
 };
-
 
 export const dada = () =>{
 
