@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { CourseModal } from "./CoursesModal";
 
 export const CourseList = ({ courses, creditCount, user, type }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,27 +23,6 @@ export const CourseList = ({ courses, creditCount, user, type }) => {
   return (
     <>
       <div className="std-courses-container">
-        {showModal && selectedCourse && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <h2>Modify Course</h2>
-              <p>
-                <strong>Course Code:</strong> {selectedCourse.ccode}
-              </p>
-              <p>
-                <strong>Course Name:</strong> {selectedCourse.cname}
-              </p>
-              <p>
-                <strong>Credits:</strong> {selectedCourse.ccredit}
-              </p>
-
-              {/* You can add editable fields here */}
-
-              <button onClick={() => setShowModal(false)}>Close</button>
-            </div>
-          </div>
-        )}
-  
         {type == "faculty" ? (
           <div className="std-total-cr-selected">
             Total Credit: {creditCount}
@@ -75,32 +54,40 @@ export const CourseList = ({ courses, creditCount, user, type }) => {
         ) : (
           <div className=""></div>
         )}
-        {(filteredCourses.length > 0 ? filteredCourses : courses).map(
-          (item, index) => (
-            <div key={index} className="std-course-item">
-              <div className="std-cname">{item.cname}</div>
-              <div className="std-ccode">
-                Course Code: <strong>{item.ccode}</strong>{" "}
+        <div className="jikunu">
+          {(filteredCourses.length > 0 ? filteredCourses : courses).map(
+            (item, index) => (
+              <div key={index} className="std-course-item">
+                <div className="std-cname">{item.cname}</div>
+                <div className="std-ccode">
+                  Course Code: <strong>{item.ccode}</strong>{" "}
+                </div>
+                <div className="std-ccredit">
+                  Course Credit <strong>{item.ccredit}</strong>
+                </div>
+                <div className="std-ccredit">
+                  Semester <strong>{item.csem}</strong>
+                </div>
+                {type == "faculty" && (
+                  <button className="course-button">See students</button>
+                )}
+                {type == "admin" && (
+                  <button
+                    className="course-button"
+                    onClick={() => ModifyCourseHandler(item)}
+                  >
+                    Modify
+                  </button>
+                )}
               </div>
-              <div className="std-ccredit">
-                Course Credit <strong>{item.ccredit}</strong>
-              </div>
-              <div className="std-ccredit">
-                Semester <strong>{item.csem}</strong>
-              </div>
-              {type == "faculty" && (
-                <button className="course-button">See students</button>
-              )}
-              {type == "admin" && (
-                <button
-                  className="course-button"
-                  onClick={() => ModifyCourseHandler(item)}
-                >
-                  Modify
-                </button>
-              )}
-            </div>
-          )
+            )
+          )}
+        </div>
+        {showModal && (
+          <CourseModal
+            course={selectedCourse} 
+            onClose={() => setShowModal(false)}
+          />
         )}
       </div>
     </>

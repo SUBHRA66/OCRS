@@ -33,5 +33,9 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "vite": "^6.2.0"
-  }
+  },
+  "description": "Online Course Registration System, mini-project, 6th sem",
+  "main": "eslint.config.js",
+  "author": "Subhranandan Deka",
+  "license": "ISC"
 }

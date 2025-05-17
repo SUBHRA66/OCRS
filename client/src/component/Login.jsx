@@ -27,7 +27,6 @@ export const Login = () => {
 
   const loginhandler = async () => {
     if (validator.isEmpty(role)) displayMsg("Enter Credentials to login");
-    console.log("Login Button was clicked");
     setClickedLoggedin(true);
     let data, flag, message;
     if (role === "student") {

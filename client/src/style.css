@@ -5,8 +5,8 @@
   box-sizing: border-box;
 }
 
-
-html, body{
+html,
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -109,6 +109,10 @@ select:focus {
   text-decoration: underline;
 }
 
+.jikunu {
+  height: 70vh;
+  overflow-y: auto;
+}
 /* HEADER STYLES */
 .header-container {
   width: 100;
@@ -266,6 +270,8 @@ select:focus {
   background: #ffffff;
   border: 6px solid #5aa8dc;
   padding: 1rem 1.5rem;
+  margin-right: 15px;
+  margin-left: 5px;
   margin-bottom: 1rem;
   border-radius: 20px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -276,6 +282,13 @@ select:focus {
   box-shadow: 0 4px 12px rgba(0, 122, 204, 0.15);
 }
 
+.search-bar-container {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-color: Blue;
+  border: solid #1e293b 3px;
+}
 .std-cname {
   font-size: 1.1rem;
   font-weight: 600;
@@ -562,9 +575,11 @@ select:focus {
 
 /* COURSE REGISTRATION PAGE FOR STUDENTS------------------------------------ */
 .course-reg-container {
+  height: 100vh;
   padding: 20px;
   padding-top: 0;
   font-family: sans-serif;
+  overflow-y: auto;
 }
 
 .course-reg-heading {
@@ -1215,11 +1230,11 @@ select:focus {
 
 /* NAVIGATION PANEL FOR FACULTY */
 
-.student-profile-container{
+.student-profile-container {
   width: 70vw;
 }
 /* Sidebar */
-.nav-container{
+.nav-container {
   flex-wrap: wrap;
   display: flex;
 }
@@ -1233,7 +1248,6 @@ select:focus {
   padding: 02rem 0rem;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 }
-
 
 .nav-heading {
   font-size: 1.4rem;
@@ -1386,13 +1400,41 @@ select:focus {
   border-radius: 6px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
+.add-course-button {
+  background-color: #1e88e5; /* Primary blue */
+  color: white; /* Text color */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px 20px; /* Adequate padding */
+  font-size: 16px; /* Readable font size */
+  font-weight: 500; /* Slightly bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-course-button:hover {
+  background-color: #1565c0; /* Darker blue on hover */
+  transform: translateY(-1px); /* Slight raise effect */
+}
+
+.add-course-button:active {
+  background-color: #0d47a1; /* Even darker blue when clicked */
+  transform: translateY(0); /* Reset raise */
+}
 
 .admin-manage-course-header {
+  justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px; /* Optional: spacing around header */
+  font-size: 24px;
+  font-weight: bold;
   font-size: 28px;
   font-weight: 700;
   text-align: center;
   color: #2c3e50;
-  margin-top: 0;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 
@@ -1702,4 +1744,111 @@ select:focus {
   font-size: 2rem;
   font-weight: bold;
   color: #007bff;
+}
+
+/* Full-screen dark overlay with blur */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.update-course-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+.modal-input select {
+  appearance: none;
+  background-color: white;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.buttons button {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.1s;
+}
+
+.buttons button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.buttons button:first-child:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.buttons button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+.buttons button:last-child:hover {
+  background-color: #c62828;
+  transform: translateY(-1px);
+}
+.structure-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.structure-input {
+  flex: 1;
+  width: 2vw;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
 }

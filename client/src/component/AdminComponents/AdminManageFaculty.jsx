@@ -15,6 +15,7 @@ export const AdminManageFaculty = () => {
           { insSchool: school, insDept: department },
           { withCredentials: true }
         );
+        console.log(response);
         setFaculty(response.data.data);
       }
       getAllFaculties(school, department);
@@ -32,8 +33,8 @@ export const AdminManageFaculty = () => {
           }}
         >
           <option value="">Select School</option>
-          <option value="Engineering">School of Engineering</option>
-          <option value="Sciences">School of Sciences</option>
+          <option value="SOE">School of Engineering</option>
+          <option value="SOS">School of Sciences</option>
         </select>
 
         <select

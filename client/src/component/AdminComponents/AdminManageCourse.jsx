@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../utils/constants";
 import { CourseList } from "../CourseList";
 import { useSelector } from "react-redux";
+import { CourseModal } from "../CoursesModal";
 
 export const AdminManageCourse = () => {
   const [school, setSchool] = useState("");
   const [department, setDepartment] = useState("");
   const [courses, setCourses] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const admin = useSelector((state) => state.admin);
   useEffect(() => {
     if (school && department) {
@@ -23,13 +25,21 @@ export const AdminManageCourse = () => {
       getAllCourses(school, department);
     }
   }, [school, department]);
+
   const temp = school && department;
-  console.log(courses);
-  const onClickHander = () => {};
+
   return (
-    // <CourseList courses={courses} user={admin} type={"admin"}/>)
     <div className="admin-manage-course">
-      <div className="admin-manage-course-header">MANAGE COURSES</div>
+      <div className="admin-manage-course-header">
+        MANAGE COURSES
+        <button className="add-course-button" onClick={()=>setShowModal(true)}>
+          ADD COURSE
+        </button>
+        {showModal && (
+          <CourseModal action="add" onClose={() => setShowModal(false)} />
+        )}
+      </div>
+
       <div className="filter-row">
         <select
           className="dropdown-11"
@@ -57,7 +67,9 @@ export const AdminManageCourse = () => {
       {school && department ? (
         <CourseList courses={courses} user={admin} type={"admin"} />
       ) : (
-        <div className="text" style={{textAlign: "center"}}>SELECT SCHOOL AND DEPARTMENT TO BEGIN WITH</div>
+        <div className="text" style={{ textAlign: "center" }}>
+          SELECT SCHOOL AND DEPARTMENT TO BEGIN WITH
+        </div>
       )}
     </div>
   );

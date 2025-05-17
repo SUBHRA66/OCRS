@@ -5,7 +5,8 @@ const initialState = {
     courses: [],
     backlogCourses: [],
     selectedCourses: [],
-    creditCount: null
+    electiveCourses: [],
+    creditCount: 0
 }
 const courseSlice = createSlice({
   name: "course",
@@ -35,6 +36,15 @@ const courseSlice = createSlice({
         (course) => course.ccode !== courseCodeToRemove
       );
     },
+    addElectiveCourses: (state, action) =>{
+      state.electiveCourses.push(action.payload)
+    },
+    removeEleciveCourses: (state, action)=>{
+      const courseCodeToRemove = action.payload;
+      state.electiveCourses = state.electiveCourses.filter(
+        (course => course.ccode !== courseCodeToRemove)
+      )
+    },
     addCreditCount: (state, action)=>{
       const credit = action.payload;
       state.creditCount = state.creditCount + credit;
@@ -56,6 +66,8 @@ export const {
   removeBacklogCourses,
   addCreditCount,
   removeCreditCount,
+  addElectiveCourses,
+  removeEleciveCourses,
   clearAllCourseState
 } = courseSlice.actions;
 

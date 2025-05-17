@@ -54,7 +54,13 @@ export const StudentList = ({ students }) => {
                   CGPA: <strong>{student.scgpa}</strong>
                 </div>
               </div>
-              <button className="modify-button">Modify</button>
+              <button
+                className="modify-button"
+                onClick={() => ModifyStudentHandler(student)}
+              >
+                Modify
+              </button>
+
             </div>
           ))
         ) : (

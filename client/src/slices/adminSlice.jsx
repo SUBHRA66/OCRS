@@ -9,9 +9,7 @@ const adminSlice = createSlice({
     addAdmin: (state, action) => {
       return action.payload;
     },
-    removeAdmin: (state) => {
-      state.items = null;
-    },
+    removeAdmin: (state) => null 
   },
 });
 

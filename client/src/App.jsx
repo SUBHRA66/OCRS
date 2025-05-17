@@ -39,7 +39,6 @@ const Layout = () => {
   const faculty = useSelector((state) => state.faculty);
   const advisor = useSelector((state) => state.advisor);
   const admin = useSelector((state) => state.admin);
-  console.log(student);
   return (
     <BrowserRouter>
       <Header />
