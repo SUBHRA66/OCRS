@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../../utils/constants";
+
 export const AdvisorManageRequests = () => {
   const student = useSelector((state) => state.student);
   const [requests, setRequests] = useState([]);
@@ -9,6 +10,8 @@ export const AdvisorManageRequests = () => {
   const [approved, setApproved] = useState(false);
   const [rejected, setRejected]= useState(false);
   console.log(requests)
+
+
   useEffect(() => {
     async function getAllRequests(rollno) {
       const response = await axios.get(

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   addCreditCount,
   addElectiveCourses,
+  addOpenElectiveCourses,
   addSelectedCourses,
   clearAllCourseState,
   removeSelectedCourse,
@@ -18,6 +19,7 @@ export const StudentCourseRegistration = () => {
   const [selectedCourses, setSelectedCourses] = useState([]); //SELECTED COURSE IN THE PORTAL, for Redux
   const [COURSES, setCourses] = useState([]); // ALL THE COURSES
   const [electiveCourses, setElectiveCourses] = useState([]);
+  const [openElectiveCourse, setOpenElectiveCourses] = useState([]);
   const [preExistingCourse, setPreExistingCourse] = useState([]); // temp array to store courses
   const [saveSelection, setSaveSelection] = useState(false); // SAVE SELECTION FLAG
   const [sendRequest, setSendRequest] = useState(false); // REG REQUEST SENT FLAG
@@ -27,16 +29,23 @@ export const StudentCourseRegistration = () => {
   const [approved, setApproved] = useState(false);
   const [maxElecCourses, setMaxElecCourses] = useState(0);
   const [maxElecCredit, setMaxElecCredit] = useState(0);
+  const [maxOpenElecCourses, setMaxOpenElecCourses] = useState(0);
+  const [maxOpenElecCredit, setMaxOpenElecCredit] = useState(0);
   const [selectedElectiveCourse, setSelectedElectiveCourse] = useState(
     Array(maxElecCourses).fill("")
   );
   const [dropdownSelect, setDropdownSelect] = useState(
     Array(maxElecCourses).fill("")
   );
-  const [sss, setsss] = useState("");
   const [msg, setMsg] = useState("");
   const creditAlreadySelected = useSelector(
     (state) => state.course.creditCount
+  );
+  const [selectedOpenElectiveCourse, setSelectedOpenElectiveCourse] = useState(
+    Array(maxOpenElecCourses).fill("")
+  );
+  const [openDropdownSelect, setOpenDropdownSelect] = useState(
+    Array(maxOpenElecCourses).fill("")
   );
   console.log(creditAlreadySelected);
   const [creditCount, setCreditCount] = useState(creditAlreadySelected);
@@ -57,6 +66,7 @@ export const StudentCourseRegistration = () => {
         {
           withCredentials: true,
         }
+        
       );
       setRejected(false);
       setApproved(false);
@@ -88,12 +98,23 @@ export const StudentCourseRegistration = () => {
         setMaxElecCredit(lala?.data?.maxElectiveCredit);
         setMaxElecCourses(lala?.data?.maxElective);
         setElectiveCourses(lala?.data?.data);
+        const result = await axios.get(
+          BASE_URL + "student/course-reg/open-elective-courses",
+          { withCredentials: true }
+        );
+        console.log(result);
+        setOpenElectiveCourses(result?.data?.data);
+        setMaxOpenElecCourses(result?.data?.maxOpenElective);
+        setMaxOpenElecCredit(result?.data?.maxOpenElectiveCredit);
       }
     }
     checkRegReq();
     console.log("inside useEffect");
   }, [flag]);
 
+  console.log(openElectiveCourse);
+  console.log(maxOpenElecCourses);
+  console.log(maxOpenElecCredit);
   const handleSelectCourse = (courseCode, courseCredit) => {
     if (!selectedCourses.includes(courseCode)) {
       setSelectedCourses((prev) => [...prev, courseCode]);
@@ -117,23 +138,45 @@ export const StudentCourseRegistration = () => {
 
   const handleSelectElectiveCourse = async (courseCode) => {
     const c = electiveCourses.find((ec) => ec.ccode == courseCode);
-    console.log(c.ccredit);
-    setCreditCount((prev) => prev + c.ccredit);
+    console.log(c.ccredit)
+    setCreditCount((prev)=>prev + c.ccredit)
     dispatch(addElectiveCourses(c));
     dispatch(addCreditCount(c.ccredit));
   };
+
+  const handleSelectOpenElectiveCourse = (courseCode) => {
+    const c = openElectiveCourse.find((ec) => ec.ccode == courseCode);
+    console.log(c);
+    setCreditCount((prev) => prev + c.ccredit);
+    dispatch(addOpenElectiveCourses(c));
+    dispatch(addCreditCount(c.ccredit));
+  };
+
+  console.log(selectedOpenElectiveCourse);
+
+
+
+
   const backlogCoursesHandler = async () => {
     return navigate("/student/course-registration/backlog-courses");
   };
 
   const sendRegRequestHandler = async () => {
     let allCourses, message, response;
-    if (selectedElectiveCourse.length > 0 && backlogCourses.length > 0) {
+    if (
+      selectedElectiveCourse.length > 0 &&
+      backlogCourses.length > 0 &&
+      selectedOpenElectiveCourse.length > 0
+    ) {
       allCourses = [
         ...selectedCourses,
         ...selectedElectiveCourse,
-        ...backlogCourses,
+        ...selectedOpenElectiveCourse,
+        ...backlogCourses
       ];
+      console.log(allCourses);
+    } else if (selectedElectiveCourse.length > 0 && selectedOpenElectiveCourse > 0) {
+      allCourses = [...selectedCourses, ...selectedElectiveCourse, ...selectedOpenElectiveCourse];
       console.log(allCourses);
     } else if (selectedElectiveCourse.length > 0) {
       allCourses = [...selectedCourses, ...selectedElectiveCourse];
@@ -173,7 +216,7 @@ export const StudentCourseRegistration = () => {
     setSaveSelection(false);
     setSelectedCourses([]);
   };
-  
+
   if (!flag) {
     return (
       <div className="course-reg-container">
@@ -245,6 +288,48 @@ export const StudentCourseRegistration = () => {
           </ul>
         </div>
 
+        {/* OPEN ELECTIVE COURSES DROPDOWN */}
+        <div className="open-elective-course-container">
+          <ul>
+            {Array.from({ length: maxOpenElecCourses }).map((_, index) => (
+              <li key={index} className="course-item">
+                <select
+                  value={openDropdownSelect[index] || ""}
+                  onChange={(e) => {
+                    const selectedValue = e.target.value;
+                    handleSelectOpenElectiveCourse(selectedValue);
+
+                    setOpenDropdownSelect((prev) => {
+                      const updated = [...prev];
+                      updated[index] = selectedValue;
+                      return updated;
+                    });
+
+                    setSelectedOpenElectiveCourse((prev) => {
+                      const updated = [...prev];
+                      updated[index] = selectedValue;
+                      return updated;
+                    });
+                  }}
+                  className="ronga"
+                >
+                  <option value="">SELECT OPEN ELECTIVE {index + 1}</option>
+                  {openElectiveCourse
+                    .filter(
+                      (oc) =>
+                        !selectedOpenElectiveCourse.includes(oc.ccode) ||
+                        selectedOpenElectiveCourse[index] === oc.ccode
+                    )
+                    .map((oc) => (
+                      <option key={oc.ccode} value={oc.ccode}>
+                        {oc.cname}
+                      </option>
+                    ))}
+                </select>
+              </li>
+            ))}
+          </ul>
+        </div>
         <ul className="course-list">
           {saveSelection ? (
             <div className="sabretooth">
