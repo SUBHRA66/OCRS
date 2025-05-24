@@ -557,8 +557,43 @@ export const electiveCourses = async (req, res) => {
       message: "elective courses fetched",
       data: response,
       maxElective: maxElective,
-      maxElectiveCredit: maxElectiveCredit
+      maxElectiveCredit: maxElectiveCredit,
     });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+};
+
+export const openElectiveCourses = async (req, res) => {
+  try {
+    const { ssem, rollno } = req.user;
+    let semtype, maxOpenElective, maxOpenElectiveCredit, result;
+    if (ssem % 2) semtype = "autumn";
+    else semtype = "spring";
+
+    const [response] = await pool.query(
+      `SELECT * FROM Courses
+      WHERE csemtype = ? AND ctype = ?`,
+      [semtype, "open-elective"]
+    );
+    [result] = await pool.query(
+      `SELECT sem.oe, sem.oeCredit FROM semester sem
+      INNER JOIN Student S
+      ON S.ssem = sem.semno
+      WHERE S.rollno = ?`,
+      [rollno]
+    );
+    maxOpenElective = result[0].oe;
+    maxOpenElectiveCredit = result[0].oeCredit;
+    console.log(maxOpenElective);
+    console.log(maxOpenElectiveCredit);
+    return res.json({
+      message: "open elective courses fetched",
+      data: response,
+      maxOpenElective: maxOpenElective,
+      maxOpenElectiveCredit: maxOpenElectiveCredit,
+    });
+  
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
   }

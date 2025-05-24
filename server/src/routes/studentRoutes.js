@@ -13,7 +13,8 @@ import {
   courseRegReq,
   deleteRegReq,
   getRequests,
-  electiveCourses
+  electiveCourses,
+  openElectiveCourses
 } from "../controllers/couresRegController.js";
 
 import { auth } from "../middlewares/auth.js";
@@ -82,4 +83,9 @@ studentRouter.get(
   "/course-reg/elective-courses",
   auth("student", "rollno", process.env.MYSQL_STUDENT_TOKEN_PRIVATE_KEY),
   electiveCourses
+);
+studentRouter.get(
+  "/course-reg/open-elective-courses",
+  auth("student", "rollno", process.env.MYSQL_STUDENT_TOKEN_PRIVATE_KEY),
+  openElectiveCourses
 );
