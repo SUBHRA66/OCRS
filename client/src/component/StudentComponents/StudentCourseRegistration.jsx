@@ -66,7 +66,6 @@ export const StudentCourseRegistration = () => {
         {
           withCredentials: true,
         }
-        
       );
       setRejected(false);
       setApproved(false);
@@ -138,8 +137,8 @@ export const StudentCourseRegistration = () => {
 
   const handleSelectElectiveCourse = async (courseCode) => {
     const c = electiveCourses.find((ec) => ec.ccode == courseCode);
-    console.log(c.ccredit)
-    setCreditCount((prev)=>prev + c.ccredit)
+    console.log(c.ccredit);
+    setCreditCount((prev) => prev + c.ccredit);
     dispatch(addElectiveCourses(c));
     dispatch(addCreditCount(c.ccredit));
   };
@@ -154,14 +153,14 @@ export const StudentCourseRegistration = () => {
 
   console.log(selectedOpenElectiveCourse);
 
-
-
-
   const backlogCoursesHandler = async () => {
     return navigate("/student/course-registration/backlog-courses");
   };
 
   const sendRegRequestHandler = async () => {
+    console.log(selectedOpenElectiveCourse);
+    console.log(selectedElectiveCourse);
+    console.log(selectedCourses);
     let allCourses, message, response;
     if (
       selectedElectiveCourse.length > 0 &&
@@ -172,19 +171,22 @@ export const StudentCourseRegistration = () => {
         ...selectedCourses,
         ...selectedElectiveCourse,
         ...selectedOpenElectiveCourse,
-        ...backlogCourses
+        ...backlogCourses,
       ];
-      console.log(allCourses);
-    } else if (selectedElectiveCourse.length > 0 && selectedOpenElectiveCourse > 0) {
-      allCourses = [...selectedCourses, ...selectedElectiveCourse, ...selectedOpenElectiveCourse];
-      console.log(allCourses);
+    } else if (
+      selectedElectiveCourse.length > 0 &&
+      selectedOpenElectiveCourse.length > 0
+    ) {
+      allCourses = [
+        ...selectedCourses,
+        ...selectedElectiveCourse,
+        ...selectedOpenElectiveCourse,
+      ];
     } else if (selectedElectiveCourse.length > 0) {
       allCourses = [...selectedCourses, ...selectedElectiveCourse];
-      console.log(allCourses);
     } else {
       allCourses = [...selectedCourses];
     }
-
     response = await axios.post(
       BASE_URL + "student/course-reg/course-selection",
       {
